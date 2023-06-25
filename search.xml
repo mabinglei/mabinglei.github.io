@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行</title>
+    <url>/SwiftUI-keyboard-listen.html</url>
+    <content><![CDATA[<h2 id="SwiftUI监听键盘事件"><a href="#SwiftUI监听键盘事件" class="headerlink" title="SwiftUI监听键盘事件"></a>SwiftUI监听键盘事件</h2><p>SwiftUI中的TextEditor没有类似于TextField的onCommit()或onSubmit()方法，所以无法直接使用Enter键做出此动作。</p>
+<p>下面是一个变通方法，使用NSEvent监听实现Enter提交，Enter+Option换行</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TestView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">  <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> text <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">	<span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">    <span class="type">TextEditor</span>(text: <span class="variable">$text</span>)</span><br><span class="line">      <span class="comment">/*</span></span><br><span class="line"><span class="comment">       此处的onChange()是确保按下Enter后能清空TextEditor</span></span><br><span class="line"><span class="comment">       SwiftUI有Bug，text = &quot;&quot;并不能完全清空TextEditor，它可能存在换行行为</span></span><br><span class="line"><span class="comment">       异步操作模拟按下&quot;delete键&quot;，保证TextEditor完全清空</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line">      .onChange(of: message.messages.count, perform: &#123; <span class="keyword">_</span> <span class="keyword">in</span></span><br><span class="line">        text <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">        <span class="type">DispatchQueue</span>.main.asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">0.001</span>) &#123;</span><br><span class="line">            <span class="type">NSApplication</span>.shared.sendAction(<span class="keyword">#selector</span>(<span class="type">NSText</span>.deleteBackward(<span class="keyword">_</span>:)), to: <span class="literal">nil</span>, from: <span class="literal">nil</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">      .font(.title2)</span><br><span class="line">      .padding(<span class="number">5</span>)</span><br><span class="line">      .focused(<span class="variable">$isFocused</span>)</span><br><span class="line">      .frame(minHeight: <span class="number">15</span>, maxHeight: <span class="number">180</span>)</span><br><span class="line">      .fixedSize(horizontal: <span class="literal">false</span>, vertical: <span class="literal">true</span>)<span class="comment">//使其支持动态调整高度</span></span><br><span class="line">      .scrollContentBackground(.hidden)<span class="comment">//去除白色的背景，使其透明</span></span><br><span class="line">      .overlay(</span><br><span class="line">          <span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">15</span>)</span><br><span class="line">              .stroke(isFocused <span class="operator">==</span> <span class="literal">true</span> <span class="operator">?</span> <span class="type">Color</span>.blue : <span class="type">Color</span>.secondary, lineWidth: isFocused <span class="operator">==</span> <span class="literal">true</span> <span class="operator">?</span> <span class="number">2</span> : <span class="number">0.3</span>)</span><br><span class="line">      )<span class="comment">//圆角遮罩</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     实现Enter提交，Enter+Option换行</span></span><br><span class="line"><span class="comment">     注意不能将下面的代码放到NavigationStack里面，否则会提交两次</span></span><br><span class="line"><span class="comment">     也就是说&quot;Enter提交&quot;会重复两次,这是不符合预期的</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">      .onAppear &#123;</span><br><span class="line">        <span class="type">NSEvent</span>.addLocalMonitorForEvents(matching: [.keyDown]) &#123; nsevent <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">if</span> nsevent.keyCode <span class="operator">==</span> <span class="number">36</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>nsevent.modifierFlags.contains(.option) &#123;</span><br><span class="line">                <span class="keyword">if</span> text.last <span class="operator">!=</span> <span class="literal">nil</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> <span class="operator">!</span>text.isEmpty, <span class="operator">!</span>text.allSatisfy(&#123; <span class="variable">$0</span>.isNewline &#125;) &#123;</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&quot;Enter提交&quot;</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> nsevent</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>SwiftUI</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/hello-world.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于嵌入式Qt的多功能电子台历</title>
     <url>/Qt-clock-embedded.html</url>
     <content><![CDATA[<h2 id="1．嵌入式系统概念简述"><a href="#1．嵌入式系统概念简述" class="headerlink" title="1．嵌入式系统概念简述"></a>1．嵌入式系统概念简述</h2><p>嵌入式系统是指将计算机系统集成到其它产品中的技术。这种技术的目的是使用计算机系统来控制和协调其它产品的运行，并通过计算机系统来实现更复杂和更高效的功能。  </p>
@@ -144,21 +183,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行</title>
-    <url>/SwiftUI-keyboard-listen.html</url>
-    <content><![CDATA[<h2 id="SwiftUI监听键盘事件"><a href="#SwiftUI监听键盘事件" class="headerlink" title="SwiftUI监听键盘事件"></a>SwiftUI监听键盘事件</h2><p>SwiftUI中的TextEditor没有类似于TextField的onCommit()或onSubmit()方法，所以无法直接使用Enter键做出此动作。</p>
-<p>下面是一个变通方法，使用NSEvent监听实现Enter提交，Enter+Option换行</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TestView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">  <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> text <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">	<span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">    <span class="type">TextEditor</span>(text: <span class="variable">$text</span>)</span><br><span class="line">      <span class="comment">/*</span></span><br><span class="line"><span class="comment">       此处的onChange()是确保按下Enter后能清空TextEditor</span></span><br><span class="line"><span class="comment">       SwiftUI有Bug，text = &quot;&quot;并不能完全清空TextEditor，它可能存在换行行为</span></span><br><span class="line"><span class="comment">       异步操作模拟按下&quot;delete键&quot;，保证TextEditor完全清空</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line">      .onChange(of: message.messages.count, perform: &#123; <span class="keyword">_</span> <span class="keyword">in</span></span><br><span class="line">        text <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">        <span class="type">DispatchQueue</span>.main.asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">0.001</span>) &#123;</span><br><span class="line">            <span class="type">NSApplication</span>.shared.sendAction(<span class="keyword">#selector</span>(<span class="type">NSText</span>.deleteBackward(<span class="keyword">_</span>:)), to: <span class="literal">nil</span>, from: <span class="literal">nil</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">      .font(.title2)</span><br><span class="line">      .padding(<span class="number">5</span>)</span><br><span class="line">      .focused(<span class="variable">$isFocused</span>)</span><br><span class="line">      .frame(minHeight: <span class="number">15</span>, maxHeight: <span class="number">180</span>)</span><br><span class="line">      .fixedSize(horizontal: <span class="literal">false</span>, vertical: <span class="literal">true</span>)<span class="comment">//使其支持动态调整高度</span></span><br><span class="line">      .scrollContentBackground(.hidden)<span class="comment">//去除白色的背景，使其透明</span></span><br><span class="line">      .overlay(</span><br><span class="line">          <span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">15</span>)</span><br><span class="line">              .stroke(isFocused <span class="operator">==</span> <span class="literal">true</span> <span class="operator">?</span> <span class="type">Color</span>.blue : <span class="type">Color</span>.secondary, lineWidth: isFocused <span class="operator">==</span> <span class="literal">true</span> <span class="operator">?</span> <span class="number">2</span> : <span class="number">0.3</span>)</span><br><span class="line">      )<span class="comment">//圆角遮罩</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     实现Enter提交，Enter+Option换行</span></span><br><span class="line"><span class="comment">     注意不能将下面的代码放到NavigationStack里面，否则会提交两次</span></span><br><span class="line"><span class="comment">     也就是说&quot;Enter提交&quot;会重复两次,这是不符合预期的</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">      .onAppear &#123;</span><br><span class="line">        <span class="type">NSEvent</span>.addLocalMonitorForEvents(matching: [.keyDown]) &#123; nsevent <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">if</span> nsevent.keyCode <span class="operator">==</span> <span class="number">36</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>nsevent.modifierFlags.contains(.option) &#123;</span><br><span class="line">                <span class="keyword">if</span> text.last <span class="operator">!=</span> <span class="literal">nil</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> <span class="operator">!</span>text.isEmpty, <span class="operator">!</span>text.allSatisfy(&#123; <span class="variable">$0</span>.isNewline &#125;) &#123;</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&quot;Enter提交&quot;</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> nsevent</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>SwiftUI</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>将Java jar包注册为Linux服务</title>
     <url>/Java-jar-config-Linux-service.html</url>
     <content><![CDATA[<h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir HttpGetTime</span><br><span class="line">cd HttpGetTime</span><br></pre></td></tr></table></figure>
@@ -177,30 +201,6 @@
       <tags>
         <tag>Linux</tag>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/hello-world.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>博客搭建</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
