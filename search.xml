@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>将Java jar包注册为Linux服务</title>
+    <url>/2022/12/24/Java-jar-config-Linux-service/</url>
+    <content><![CDATA[<h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir HttpGetTime</span><br><span class="line">cd HttpGetTime</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写启动脚本"><a href="#编写启动脚本" class="headerlink" title="编写启动脚本"></a>编写启动脚本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim start.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line">nohup /usr/bin/java -jar  /root/HttpGetTime.jar &gt;  /home/HttpGetTime/HttpGetTime.log &amp;</span><br><span class="line">echo $! &gt; /var/run/HttpGetTime.pid</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写停止脚本"><a href="#编写停止脚本" class="headerlink" title="编写停止脚本"></a>编写停止脚本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim stop.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">PID=$(cat /var/run/HttpGetTime.pid)</span><br><span class="line">kill -9 $PID</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写服务"><a href="#编写服务" class="headerlink" title="编写服务"></a>编写服务</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /usr/lib/systemd/system</span><br><span class="line">vim HttpGetTime.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=HttpGetTime_service</span><br><span class="line">After=syslog.target network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/home/HttpGetTime/start.sh</span><br><span class="line">ExecStop=/home/HttpGetTime/stop.sh</span><br><span class="line">PrivateTmp=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<h2 id="服务启动、停止、开机自启"><a href="#服务启动、停止、开机自启" class="headerlink" title="服务启动、停止、开机自启"></a>服务启动、停止、开机自启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl [start|stop|enable] HttpGetTime.service</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于嵌入式Qt的多功能电子台历</title>
+    <url>/2022/12/21/Qt-clock-embedded/</url>
+    <content><![CDATA[<h2 id="1．嵌入式系统概念简述"><a href="#1．嵌入式系统概念简述" class="headerlink" title="1．嵌入式系统概念简述"></a>1．嵌入式系统概念简述</h2><p>嵌入式系统是指将计算机系统集成到其它产品中的技术。这种技术的目的是使用计算机系统来控制和协调其它产品的运行，并通过计算机系统来实现更复杂和更高效的功能。  </p>
+<p>嵌入式系统通常由以下几个部分组成：  </p>
+<ul>
+<li>微处理器：这是嵌入式系统的核心，用于执行指令并控制其它部件的运行。  </li>
+<li>存储器：包括ROM、RAM和Flash等不同类型的存储器，用于保存程序和数据。  </li>
+<li>接口：包括串口、并口、SPI、I2C等不同类型的接口，用于连接外部设备和传输数据。  </li>
+<li>外设：包括显示器、键盘、鼠标、打印机、传感器等不同类型的外设，用于实现更多的功能和交互。</li>
+</ul>
+<p>嵌入式系统应用广泛，可以用于汽车、家电、医疗、军事等不同领域。 </p>
+<h2 id="2．环境搭建"><a href="#2．环境搭建" class="headerlink" title="2．环境搭建"></a>2．环境搭建</h2><ol>
+<li><p>安装虚拟机  首先，需要在电脑上安装好Parallels Desktop软件。  打开Parallels Desktop软件，在软件的主界面中点击“创建新虚拟机”按钮。  在弹出的向导窗口中，选择“安装操作系统”，并点击“继续”按钮。  接下来，选择“Ubuntu”作为要安装的操作系统，并点击“继续”按钮。  在接下来的界面中，输入虚拟机的名称、用户名和密码，并设置虚拟机的内存、硬盘大小等参数。  点击“完成”按钮，开始安装Ubuntu虚拟机。  安装过程中，会提示选择安装方式，选择“安装Ubuntu”即可。  安装完成后，在Parallels Desktop的主界面中，会看到刚才创建的Ubuntu虚拟机，双击虚拟机图标即可启动虚拟机。</p>
+<img src="/2022/12/21/Qt-clock-embedded/clip_image003.jpg" class="" title="img">
+
+<p>在虚拟机中，输入用户名和密码，登录Ubuntu系统，即可使用Ubuntu虚拟机。  </p>
+<img src="/2022/12/21/Qt-clock-embedded/clip_image004.jpg" class="" title="img">
+</li>
+<li><p>安装Linux系统并进行NFS及交叉编译工具链等的配置   设置NFS共享目录：  在Ubuntu系统上安装NFS服务器软件包：  sudo apt-get install nfs-kernel-server  创建共享目录&#x2F;nfs-share，并设置相应的权限：  sudo mkdir &#x2F;nfs-share  sudo chmod -R 777 &#x2F;nfs-share  编辑&#x2F;etc&#x2F;exports文件，添加对&#x2F;nfs-share目录的共享配置：  sudo nano &#x2F;etc&#x2F;exports  在&#x2F;etc&#x2F;exports文件中添加如下内容：  &#x2F;nfs-share *(rw,sync,no_subtree_check)  重启NFS服务器，使配置生效：  sudo service nfs-kernel-server restart  在开发板上挂载共享目录：  sudo mount -t nfs [虚拟机IP地址]:&#x2F;share   经过以上步骤后，虚拟机上的&#x2F;share目录就会被共享到开发板上，开发板可以通过&#x2F;share目录访问虚拟机上的文件。   交叉编译工具链配置：                                              </p>
+<p>由于我的物理机CPU为Apple M1 Pro，属于ARM64架构，使用命令lscpu  | grep “Architecture”查看架构如下图所示，与开发板架构一样，所以我无需配置交叉编译，直接使用gcc编译即可  </p>
+<img src="/2022/12/21/Qt-clock-embedded/clip_image006.jpg" class="" title="img">
+</li>
+<li><p>配置编译Kernel和Roofs    </p>
+<ol>
+<li><p>下载 Linux 的内核源代码。   <img src="/2022/12/21/Qt-clock-embedded/clip_image008.jpg" class="" title="img">  </p>
+</li>
+<li><p>针对所使用的目标平台，对源代码进行配置。   </p>
+<p> ① 查看源码 </p>
+ <img src="/2022/12/21/Qt-clock-embedded/clip_image010.jpg" class="" title="img"> 
+
+<p> ② 编辑make_deb.sh文件</p>
+  <img src="/2022/12/21/Qt-clock-embedded/clip_image012.jpg" class="" title="img"> 
+
+<p> ③执行“make  ARCH&#x3D;arm menuconfig” 配置内核  <img src="/2022/12/21/Qt-clock-embedded/clip_image014.jpg" class="" title="img"> </p>
+</li>
+<li><p>交叉编译 Linux 源代码得到内核映像文件 zImage。  <img src="/2022/12/21/Qt-clock-embedded/clip_image016.jpg" class="" title="img"> </p>
+</li>
+<li><p>编译配置Qt4.8.7环境  在Ubuntu ARM64系统中安装编译工具和库文件：  sudo apt-get install build-essential  libncurses5-dev libssl-dev bison flex  下载Qt4.8.7源代码，并解压到当前目录：  wget  <a href="https://download.qt.io/archive/qt/4.8/4.8.7/qt-everywhere-opensource-src-4.8.7.tar.gz">https://download.qt.io/archive/qt/4.8/4.8.7/qt-everywhere-opensource-src-4.8.7.tar.gz</a>  tar xvfz qt-everywhere-opensource-src-4.8.7.tar.gz  进入Qt4.8.7源代码目录，并执行配置命令：  cd qt-everywhere-opensource-src-4.8.7  .&#x2F;configure -platform  linux-arm-gnueabi-g++  执行.&#x2F;configure命令后，会根据系统环境和你提供的参数，自动生成Qt4.8.7编译所需的Makefile文件。  编译Qt4.8.7：  make  sudo make install  经过以上步骤后，就可以在Ubuntu ARM64系统中编译并安装Qt4.8.7了。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="3．Linux设计"><a href="#3．Linux设计" class="headerlink" title="3．Linux设计"></a>3．Linux设计</h2><ol>
+<li><p>DHT11：  </p>
+<p>A.    电路原理图</p>
+  <img src="/2022/12/21/Qt-clock-embedded/clip_image018.jpg" class="" title="img"> 
+
+<p>B.    驱动控制电平分析  DHT11温湿度传感器上电后，总线空闲状态为高电平，主机把总线拉低等待DHT11响应，主机把总线拉低必须大于18毫秒，保证DHT11能检测到起始信号。DHT11接收到主机的开始信号后，等待主机开始信号结束，然后发送80us低电平响应信号。主机发送开始信号结束后，延时等待20-40us后， 读取DHT11的响应信号，主机发送开始信号后，可以切换到输入模式，或者输出高电平均可，  总线由上拉电阻拉高。  DHT11传感器的DATA引脚检测到外部信号有低电平时，等待外部信号低电平结束，延迟后DHT11的 DATA引脚处于输出状态，输出80微秒的低电平作为应答信号，紧接着输出 80 微秒的高电平通知外设准备接收数据，微处理器的 I&#x2F;O 此时处于输入状态，检测到 I&#x2F;O 有低电平（DHT11 回应信号）后，等待80微秒的高电平后的数据接收。  当主机变为输入模式后，检测到总线为低电平，说明DHT11发送响应信号，DHT11发送响应信号后，再把总线拉高80us，准备发送数据，每一bit数据都以50us低电平时隙开始，高电平的长短定了数据位是“0”还是“1”。 </p>
+</li>
+<li><p>蜂鸣器：</p>
+<p>  A.    电路原理图</p>
+  <img src="/2022/12/21/Qt-clock-embedded/clip_image020.jpg" class="" title="img"> 
+
+<p> B.    驱动控制电平分析  观察蜂鸣器接口电路图(如上图所示)，其中的蜂鸣器接在 NPN  型三极管的集电极， 而三极管的基极接到了芯片的 GPIO1_19 引脚上，当该引脚输出高电平时，三极管  导通，蜂鸣器响，当输出低电平时，三极管截止，蜂鸣器不响;   C.    驱动程序及其分析  编写驱动程序，在 Ubuntu 的&#x2F;nfs-share  目录下新建一个名为 buzzer 的目录，然后在 该目录下通过 vim 创建一个名为 bz_drv.c  的文件，并输入如下所示的内容，完成后存盘退出   </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/module.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/poll.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;asm/io.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/device.h&gt;</span></span></span><br><span class="line"><span class="keyword">volatile</span> <span class="type">unsigned</span> <span class="type">long</span> *(CCM_CCGR1) = <span class="literal">NULL</span>; <span class="comment">//指向CCM模块中CCGR1寄存器的指针，用于控制模块的时钟。</span></span><br><span class="line"><span class="keyword">volatile</span> <span class="type">unsigned</span> <span class="type">long</span> *(IOMUXC_SW_MUX_CTL_PAD_UART1_RTS_B) = <span class="literal">NULL</span>; <span class="comment">//指向IOMUXC模块中的寄存器，用于控制UART1的RTS引脚的复用</span></span><br><span class="line"><span class="keyword">volatile</span> <span class="type">unsigned</span> <span class="type">long</span> *(IOMUXC_SW_PAD_CTL_PAD_UART1_RTS_B) = <span class="literal">NULL</span>; <span class="comment">//指向IOMUXC模块中的寄存器，用于控制UART1的RTS引脚的引脚配置</span></span><br><span class="line"><span class="keyword">volatile</span> <span class="type">unsigned</span> <span class="type">long</span> *(GPIO1_GDIR) = <span class="literal">NULL</span>; <span class="comment">//指向GPIO1模块中的寄存器，用于控制GPIO1引脚的方向</span></span><br><span class="line"><span class="keyword">volatile</span> <span class="type">unsigned</span> <span class="type">long</span> *(GPIO1_DR) = <span class="literal">NULL</span>; <span class="comment">//指向GPIO1模块中的寄存器，用于控制GPIO1引脚的输出值</span></span><br><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">struct</span> <span class="keyword">class</span> *<span class="title">bz_drv_class</span>;</span> <span class="comment">//一个指向设备类的指针，用于在内核中注册设备。</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">bz_dev_open</span><span class="params">(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *file)</span> &#123;</span><br><span class="line">   *(CCM_CCGR1) |= <span class="number">0xC000000</span>; <span class="comment">//在 CCM_CCGR1 寄存器中设置控制字段，以启用 UART1 模块</span></span><br><span class="line">   *(IOMUXC_SW_MUX_CTL_PAD_UART1_RTS_B) = <span class="number">0x5</span>; <span class="comment">//配置 UART1 的 RTS_B 接口</span></span><br><span class="line">   *(IOMUXC_SW_PAD_CTL_PAD_UART1_RTS_B) = <span class="number">0x1F038</span>;  <span class="comment">//配置 UART1 的 RTS_B 接口</span></span><br><span class="line">   *(GPIO1_GDIR) |= <span class="number">0x80000</span>; <span class="comment">//配置 GPIO1 接口的方向，使其成为输出接口</span></span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">static</span> <span class="type">ssize_t</span> <span class="title function_">bz_dev_write</span><span class="params">(<span class="keyword">struct</span> file *filp, <span class="type">const</span> <span class="type">char</span> *buf, <span class="type">size_t</span> count, <span class="type">loff_t</span> * f_pos)</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="type">int</span> val = <span class="number">1</span>; <span class="comment">//声明参数val，并赋值1</span></span><br><span class="line">   <span class="type">unsigned</span> <span class="type">long</span> n;</span><br><span class="line">   n = copy_from_user(&amp;val, buf, count); <span class="comment">//从用户空间获取val参数的值</span></span><br><span class="line">   <span class="keyword">if</span>(val==<span class="number">0</span>)<span class="comment">//打开蜂鸣器</span></span><br><span class="line">   *(GPIO1_DR) |= (<span class="number">1</span>&lt;&lt;<span class="number">19</span>); </span><br><span class="line">   <span class="keyword">else</span><span class="comment">//关闭蜂鸣器</span></span><br><span class="line">   *(GPIO1_DR) &amp;= ~(<span class="number">1</span>&lt;&lt;<span class="number">19</span>); </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">file_operations</span> <span class="title">bz_dev_fops</span> =</span> &#123;</span><br><span class="line">   .owner = THIS_MODULE, <span class="comment">//表示模块的所有权，即指向当前模块的指针</span></span><br><span class="line">   .open = bz_dev_open, <span class="comment">//函数指针，用于打开设备文件</span></span><br><span class="line">   .write = bz_dev_write, <span class="comment">//函数指针，用于向设备文件写入数据</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="type">int</span> major;</span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">bz_dev_init</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">   major = register_chrdev(<span class="number">0</span>, <span class="string">&quot;buzzer&quot;</span>, &amp;bz_dev_fops); <span class="comment">//注册一个字符设备，并获取主设备号</span></span><br><span class="line">   bz_drv_class = class_create(THIS_MODULE, <span class="string">&quot;buzzer&quot;</span>); <span class="comment">//创建一个设备类</span></span><br><span class="line">   device_create(bz_drv_class, <span class="literal">NULL</span>, MKDEV(major, <span class="number">0</span>), <span class="literal">NULL</span>, <span class="string">&quot;buzzer&quot;</span>); <span class="comment">//在该设备类下创建一个设备</span></span><br><span class="line">   CCM_CCGR1 = (<span class="keyword">volatile</span> <span class="type">unsigned</span> <span class="type">long</span> *)ioremap(<span class="number">0x20C406C</span>, <span class="number">4</span>); <span class="comment">//将物理地址映射到内核虚拟地址，以便能够访问寄存器</span></span><br><span class="line">   IOMUXC_SW_MUX_CTL_PAD_UART1_RTS_B = (<span class="keyword">volatile</span> <span class="type">unsigned</span> <span class="type">long</span> *)ioremap(<span class="number">0x20E0090</span>, <span class="number">4</span>); <span class="comment">//将物理地址映射到内核虚拟地址，以便能够访问寄存器</span></span><br><span class="line">   IOMUXC_SW_PAD_CTL_PAD_UART1_RTS_B = (<span class="keyword">volatile</span> <span class="type">unsigned</span> <span class="type">long</span> *)ioremap(<span class="number">0x20E031C</span>, <span class="number">4</span>); <span class="comment">//将物理地址映射到内核虚拟地址，以便能够访问寄存器</span></span><br><span class="line">   GPIO1_GDIR = (<span class="keyword">volatile</span> <span class="type">unsigned</span> <span class="type">long</span> *)ioremap(<span class="number">0x0209C004</span>, <span class="number">4</span>); <span class="comment">//将物理地址映射到内核虚拟地址，以便能够访问寄存器</span></span><br><span class="line">   GPIO1_DR = (<span class="keyword">volatile</span> <span class="type">unsigned</span> <span class="type">long</span> *)ioremap(<span class="number">0x0209C000</span>, <span class="number">4</span>); <span class="comment">//将物理地址映射到内核虚拟地址，以便能够访问寄存器</span></span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">bz_dev_exit</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">   device_destroy(bz_drv_class, MKDEV(major, <span class="number">0</span>)); <span class="comment">//销毁设备</span></span><br><span class="line">   class_destroy(bz_drv_class); <span class="comment">//销毁设备类</span></span><br><span class="line">   unregister_chrdev(major, <span class="string">&quot;buzzer&quot;</span>); <span class="comment">//注销字符设备，卸载设备驱动程序</span></span><br><span class="line">&#125; </span><br><span class="line">module_init(bz_dev_init); <span class="comment">//定义了模块的初始化函数，在模块加载时被调用</span></span><br><span class="line">module_exit(bz_dev_exit); <span class="comment">//定义了模块的清除函数，在模块卸载时被调用</span></span><br><span class="line">MODULE_LICENSE(<span class="string">&quot;GPL&quot;</span>); <span class="comment">//定义了模块的许可证类型，通常是GPL（GNU General Public License）</span></span><br><span class="line">MODULE_INFO(intree,<span class="string">&quot;Y&quot;</span>); <span class="comment">//定义了模块的一些信息，并将值设为“Y”，表示模块包含在内核树中。</span></span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>网络更新程序：服务端使用Java部署在服务器上，用来处理客户端的HTTP Get请求，服务端代码及注释如下</p>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.net.httpserver.HttpExchange;</span><br><span class="line"><span class="keyword">import</span> com.sun.net.httpserver.HttpServer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.OutputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.*;</span><br><span class="line"><span class="keyword">import</span> java.time.ZoneId;</span><br><span class="line"><span class="keyword">import</span> java.time.ZonedDateTime;</span><br><span class="line"><span class="keyword">import</span> java.time.format.DateTimeFormatter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建一个HttpServer对象，并设置它监听的端口号</span></span><br><span class="line">        <span class="type">HttpServer</span> <span class="variable">server</span> <span class="operator">=</span> HttpServer.create(<span class="keyword">new</span> <span class="title class_">InetSocketAddress</span>(<span class="number">8000</span>), <span class="number">0</span>);</span><br><span class="line">        <span class="comment">// 为服务端程序添加一个处理器，用于处理客户端发来的请求</span></span><br><span class="line">        server.createContext(<span class="string">&quot;/time&quot;</span>, (HttpExchange exchange) -&gt; &#123;</span><br><span class="line">            <span class="comment">// 获取当前时间</span></span><br><span class="line">            <span class="type">ZonedDateTime</span> <span class="variable">now</span> <span class="operator">=</span> ZonedDateTime.now();</span><br><span class="line">            <span class="comment">// 转化为东八区时间</span></span><br><span class="line">            <span class="type">ZonedDateTime</span> <span class="variable">chinaTime</span> <span class="operator">=</span> now.withZoneSameInstant(ZoneId.of(<span class="string">&quot;Asia/Shanghai&quot;</span>));</span><br><span class="line">            <span class="comment">// 将时间格式化为yyyy-MM-dd HH:mm:ss</span></span><br><span class="line">            <span class="type">DateTimeFormatter</span> <span class="variable">formatter</span> <span class="operator">=</span> DateTimeFormatter.ofPattern(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);</span><br><span class="line">            <span class="comment">// 将时间格式化为字符串</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">formattedDateTime</span> <span class="operator">=</span> chinaTime.format(formatter);</span><br><span class="line">            <span class="comment">// 调试输出</span></span><br><span class="line">            System.out.println(formattedDateTime);</span><br><span class="line">            <span class="comment">// 设置响应的内容类型为文本</span></span><br><span class="line">            exchange.getResponseHeaders().set(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/json; charset=utf-8&quot;</span>);</span><br><span class="line">            <span class="comment">// 将时间字符串写入响应体</span></span><br><span class="line">            exchange.sendResponseHeaders(<span class="number">200</span>, formattedDateTime.length());</span><br><span class="line">            <span class="type">OutputStream</span> <span class="variable">os</span> <span class="operator">=</span> exchange.getResponseBody();</span><br><span class="line">            os.write(formattedDateTime.getBytes());</span><br><span class="line">            os.close();</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">// 启动服务端程序，开始处理客户端请求</span></span><br><span class="line">        server.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2客户端直接调用Qt自带类库发起Get请求，并获取响应体内容（即格式化后的日期和时间），代码如下所示</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MainWindow::on_syncButton_clicked</span><span class="params">()</span><span class="comment">//网络校准按钮点击时发送HTTP GET请求，请求地址为http://localhost:8000/time(localhost为本机地址，也可以指定服务器域名)，响应体为格式化后的yyyy-MM-dd</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个QNetworkAccessManager对象，用于发送网络请求</span></span><br><span class="line">     QNetworkAccessManager manager;</span><br><span class="line">     <span class="comment">// 发送一个GET请求到http://localhost:8000/time</span></span><br><span class="line">     QNetworkReply* reply = manager.<span class="built_in">get</span>(<span class="built_in">QNetworkRequest</span>(<span class="built_in">QUrl</span>(<span class="string">&quot;http://localhost:8000/time&quot;</span>)));</span><br><span class="line">     <span class="comment">// 等待响应完成</span></span><br><span class="line">     QEventLoop loop;</span><br><span class="line">     QObject::<span class="built_in">connect</span>(reply, <span class="built_in">SIGNAL</span>(<span class="built_in">finished</span>()), &amp;loop, <span class="built_in">SLOT</span>(<span class="built_in">quit</span>()));</span><br><span class="line">     loop.<span class="built_in">exec</span>();</span><br><span class="line">     <span class="comment">// 获取响应体的内容</span></span><br><span class="line">     QByteArray responseData = reply-&gt;<span class="built_in">readAll</span>();</span><br><span class="line">     <span class="comment">// 将响应体的内容转换为字符串</span></span><br><span class="line">     QString responseString = QString::<span class="built_in">fromUtf8</span>(responseData);</span><br><span class="line">     QDateTime networkTime = QDateTime::<span class="built_in">fromString</span>(responseString,<span class="string">&quot;yyyy-MM-dd hh:mm:ss&quot;</span>);</span><br><span class="line">     <span class="built_in">setTime</span>(networkTime.<span class="built_in">time</span>().<span class="built_in">hour</span>(),networkTime.<span class="built_in">time</span>().<span class="built_in">minute</span>(),networkTime.<span class="built_in">time</span>().<span class="built_in">second</span>(),networkTime.<span class="built_in">date</span>().<span class="built_in">year</span>(),networkTime.<span class="built_in">date</span>().<span class="built_in">month</span>(),networkTime.<span class="built_in">date</span>().<span class="built_in">day</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="4．Qt设计"><a href="#4．Qt设计" class="headerlink" title="4．Qt设计"></a>4．Qt设计</h2><ol>
+<li><p>日历实现   </p>
+<ol>
+<li><p>从控件库中拖动一个Calendar Widget和一个Label到mainwindow   </p>
+</li>
+<li><p>对日历控件做如下设置 </p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ui-&gt;calendarWidget-&gt;<span class="built_in">setVerticalHeaderFormat</span>(QCalendarWidget::NoVerticalHeader);<span class="comment">//去除年和月标题</span></span><br><span class="line">ui-&gt;calendarWidget-&gt;<span class="built_in">setGridVisible</span>(<span class="literal">true</span>);<span class="comment">//网格模式</span></span><br><span class="line">ui-&gt;calendarWidget-&gt;<span class="built_in">setSelectionMode</span>(QCalendarWidget::NoSelection);<span class="comment">//设置不可修改</span></span><br><span class="line">ui-&gt;calendarWidget-&gt;<span class="built_in">setNavigationBarVisible</span>(<span class="literal">false</span>);<span class="comment">//去除导航栏</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>创建一个线程，getDate(int,int,int)函数获取当前时间时分秒，run()函数判断当前时间是否是23:59:59，如果是则发送信号使日历+1，如下所示  </p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;refreshcalendarwidget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QTime&gt;</span></span></span><br><span class="line">refreshCalendarWidget::<span class="built_in">refreshCalendarWidget</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">refreshCalendarWidget::getDate</span><span class="params">(<span class="type">int</span> hh,<span class="type">int</span> mm,<span class="type">int</span> ss)</span><span class="comment">//获取当前时间</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    recordHour = hh;</span><br><span class="line">    recordMinute = mm;</span><br><span class="line">    recordSeconde = ss;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">refreshCalendarWidget::run</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)<span class="comment">//循环判断是否需要对日历进行+1操作</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (recordHour == <span class="number">23</span> &amp;&amp; recordMinute == <span class="number">59</span> &amp;&amp; recordSeconde == <span class="number">59</span>)</span><br><span class="line">            <span class="function">emit <span class="title">sendDate</span><span class="params">(<span class="literal">true</span>)</span></span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            emit <span class="built_in">sendDate</span>(<span class="literal">false</span>);</span><br><span class="line">        <span class="built_in">sleep</span>(<span class="number">1</span>);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>日历设计界面</p>
+   <img src="/2022/12/21/Qt-clock-embedded/clip_image006-1628333.jpg" class="" title="img">
+</li>
+<li><p>时钟实现   创建两个线程，一个线程在程序启动时就开始运行，循环获取系统时间，在LCD Number中显示，另一个线程在用户启动它时用setTime(int,int,int)函数获取设置的时间，然后使用重复获取系统时间的方法来计算时间差，然后调用QDateTime的secsTo()函数判断时间差是否为1s，达到更新时间的目的，关键代码如下所示</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;timethread.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QTime&gt;</span></span></span><br><span class="line">timeThread::<span class="built_in">timeThread</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">timeThread::setTime</span><span class="params">(<span class="type">int</span> hh,<span class="type">int</span> mm,<span class="type">int</span> ss)</span><span class="comment">//设置自定义的时间</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     qtime.<span class="built_in">setHMS</span>(hh,mm,ss,<span class="number">0</span>);</span><br><span class="line">     recordTime = QDateTime::<span class="built_in">currentDateTime</span>();<span class="comment">//获取当前系统时间</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">timeThread::run</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)<span class="comment">//循环判断系统时间和手动设置的时间差是否为1秒</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (QDateTime::<span class="built_in">currentDateTime</span>().<span class="built_in">secsTo</span>(recordTime) != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            recordTime = QDateTime::<span class="built_in">currentDateTime</span>();<span class="comment">//更新记录的时间</span></span><br><span class="line">            qtime = qtime.<span class="built_in">addSecs</span>(<span class="number">1</span>);<span class="comment">//手动设置的时间+1秒</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function">emit <span class="title">refreshTime</span><span class="params">(qtime.toString(<span class="string">&quot;hh:mm:ss&quot;</span>))</span></span>;<span class="comment">//发送时间到主线程</span></span><br><span class="line">        <span class="built_in">usleep</span>(<span class="number">100</span>);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>时钟设计界面   <img src="/2022/12/21/Qt-clock-embedded/clip_image010-1628333.jpg" class="" title="img"> </p>
+</li>
+<li><p>时钟显示代码</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MainWindow::DisplayTime</span><span class="params">(QString time)</span><span class="comment">//程序打开时默认显示系统时间</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ui-&gt;lcdNumber-&gt;<span class="built_in">display</span>(time);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MainWindow::updateTime</span><span class="params">(QString time)</span><span class="comment">//手动设置时间后显示时间</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isSet)<span class="comment">//如果是手动设置的时间则将时间传给myNow</span></span><br><span class="line">        myNow = time;</span><br><span class="line">    ui-&gt;lcdNumber-&gt;<span class="built_in">display</span>(time);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>温湿度实现  新建一个线程，run()函数里面循环读入&#x2F;dev&#x2F;dht11文件的数据，并从数据中取出温湿度并发送到主线程，关键代码如下所示</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;dhtthread.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">dhtThread::<span class="built_in">dhtThread</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dhtThread::run</span><span class="params">()</span><span class="comment">//打开/dev/dht11并循环读取温湿度数据</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> dht[<span class="number">16</span>];</span><br><span class="line">    <span class="type">int</span> dhtfd = <span class="built_in">open</span>(<span class="string">&quot;/dev/dht11&quot;</span>,O_RDONLY);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">read</span>(dhtfd,dht,<span class="number">16</span>);</span><br><span class="line">        <span class="function">emit <span class="title">sendDHT</span><span class="params">(QString::number(dht[<span class="number">2</span>]),QString::number(dht[<span class="number">0</span>]))</span></span>;</span><br><span class="line">        <span class="built_in">sleep</span>(<span class="number">1</span>);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>温湿度设计界面 </p>
+ <img src="/2022/12/21/Qt-clock-embedded/clip_image016-1628333.jpg" class="" title="img">
+</li>
+<li><p>温湿度显示代码</p>
+ <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MainWindow::displayDHT</span><span class="params">(QString temperature, QString humidity)</span><span class="comment">//显示温湿度</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ui-&gt;temperatureLabel-&gt;<span class="built_in">setText</span>(temperature);</span><br><span class="line">    ui-&gt;humidityLabel-&gt;<span class="built_in">setText</span>(humidity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>闹铃实现   1创建一个窗体，窗体内放入三个Spin Box，分别获取时分秒   2创建一个线程，使用setAlarm(int,int,int)函数获取1中设置的值，使用getTime(int,int,int)函数获取当前系统时间，run()函数循环判断两者是否相等，相等则发送信号，蜂鸣器响起函数alarmRing(bool)被执行，从而实现闹钟功能，关键代码如下所示</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;alarmthread.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QTime&gt;</span></span></span><br><span class="line">alarmThread::<span class="built_in">alarmThread</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">alarmThread::setAlarm</span><span class="params">(<span class="type">int</span> hh,<span class="type">int</span> mm,<span class="type">int</span> ss)</span><span class="comment">//设置闹钟时间</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     alarmTime.<span class="built_in">setHMS</span>(hh,mm,ss,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">alarmThread::getTime</span><span class="params">(<span class="type">int</span> hh,<span class="type">int</span> mm,<span class="type">int</span> ss)</span><span class="comment">//获取当前时间</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     nowTime.<span class="built_in">setHMS</span>(hh,mm,ss,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">alarmThread::run</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)<span class="comment">//循环判断是否响起闹钟</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (alarmTime.<span class="built_in">hour</span>() == nowTime.<span class="built_in">hour</span>() &amp;&amp; alarmTime.<span class="built_in">minute</span>() == nowTime.<span class="built_in">minute</span>() &amp;&amp; alarmTime.<span class="built_in">second</span>() == nowTime.<span class="built_in">second</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function">emit <span class="title">alarmRing</span><span class="params">(<span class="literal">true</span>)</span></span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            emit <span class="built_in">alarmRing</span>(<span class="literal">false</span>);</span><br><span class="line">        <span class="built_in">msleep</span>(<span class="number">100</span>);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MainWindow::alarmRing</span><span class="params">(<span class="type">bool</span> ring)</span><span class="comment">//闹钟</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (ring)<span class="comment">//闹钟响起</span></span><br><span class="line">   &#123;</span><br><span class="line">       ringDialog-&gt;<span class="built_in">setModal</span>(<span class="literal">true</span>);</span><br><span class="line">       ringDialog-&gt;<span class="built_in">show</span>();</span><br><span class="line">       <span class="comment">//打开蜂鸣器</span></span><br><span class="line">       Buzzerfd = <span class="built_in">open</span>(<span class="string">&quot;/dev/buzzer&quot;</span>, O_RDWR);</span><br><span class="line">       val = <span class="number">0</span>;</span><br><span class="line">       <span class="built_in">write</span>(Buzzerfd, &amp;val, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span> (isSet == <span class="literal">true</span>)</span><br><span class="line">        *time = QTime::<span class="built_in">fromString</span>(myNow,<span class="string">&quot;hh:mm:ss&quot;</span>);</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">       time-&gt;<span class="built_in">setHMS</span>(QDateTime::<span class="built_in">currentDateTime</span>().<span class="built_in">time</span>().<span class="built_in">hour</span>(),QDateTime::<span class="built_in">currentDateTime</span>().<span class="built_in">time</span>().<span class="built_in">minute</span>(),QDateTime::<span class="built_in">currentDateTime</span>().<span class="built_in">time</span>().<span class="built_in">second</span>(),<span class="number">0</span>);</span><br><span class="line">   alarmthread-&gt;<span class="built_in">getTime</span>(time-&gt;<span class="built_in">hour</span>(),time-&gt;<span class="built_in">minute</span>(),time-&gt;<span class="built_in">second</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="10">
+<li><p>闹铃设计界面 </p>
+<img src="/2022/12/21/Qt-clock-embedded/clip_image024-1628333.jpg" class="" title="img">
+</li>
+<li><p>闹铃控制代码  在闹钟窗体放置一个Check Box，发送信号时带上其值，主线程判断是否开启闹钟，关键代码如下</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MainWindow::getAlarm</span><span class="params">(<span class="type">int</span> hh, <span class="type">int</span> mm,<span class="type">int</span> ss,<span class="type">bool</span> isOn)</span><span class="comment">//设置闹钟</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isOn)<span class="comment">//闹钟是否启用</span></span><br><span class="line">    &#123;</span><br><span class="line">        alarmthread-&gt;<span class="built_in">setAlarm</span>(hh,mm,ss);</span><br><span class="line">        alarmthread-&gt;<span class="built_in">start</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>日历及时间设置实现   1新建一个窗体，放入3个Spin Box，1个Calendar Widget，分别设置时分秒和日期，然后发送信号到主线程的槽函数setTime(int,int,int,int,int,int)，槽函数启动手动设置时间的线程，关键代码如下所示</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">MainWindow::setTime</span><span class="params">(<span class="type">int</span> hh,<span class="type">int</span> mm, <span class="type">int</span> ss,<span class="type">int</span> yyyy,<span class="type">int</span> MM,<span class="type">int</span> dd)</span><span class="comment">//设置LCD显示的时间为手动设置的时间</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QString str = <span class="built_in">QString</span>(<span class="string">&quot;%1-%2-%3&quot;</span>).<span class="built_in">arg</span>(yyyy).<span class="built_in">arg</span>(MM).<span class="built_in">arg</span>(dd);</span><br><span class="line">    QDate date = QDate::<span class="built_in">fromString</span>(str,<span class="string">&quot;yyyy-M-d&quot;</span>);</span><br><span class="line">    TimeshowThread-&gt;<span class="built_in">terminate</span>();<span class="comment">//将默认显示系统时间的线程关闭</span></span><br><span class="line">    TimeThread-&gt;<span class="built_in">setTime</span>(hh,mm,ss);</span><br><span class="line">    TimeThread-&gt;<span class="built_in">start</span>();</span><br><span class="line">    isSet = <span class="literal">true</span>;<span class="comment">//将标志设置为真，表示当前LCD显示的时间已经修改为手动设置的时间</span></span><br><span class="line">    ui-&gt;calendarWidget-&gt;<span class="built_in">setSelectedDate</span>(date);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>日历及时间设置设计界面</p>
+<img src="/2022/12/21/Qt-clock-embedded/clip_image030.jpg" class="" title="img"></li>
+</ol>
+<h2 id="5．实际运行效果"><a href="#5．实际运行效果" class="headerlink" title="5．实际运行效果"></a>5．实际运行效果</h2>
+
+<h2 id="6．小结"><a href="#6．小结" class="headerlink" title="6．小结"></a>6．小结</h2><p>电子台历在嵌入式开发板上的实现是一个很有趣的项目，通过它可以学习到很多有关嵌入式开发的知识。在实现过程中，需要熟悉嵌入式开发板的使用，并对相关的硬件设备有一定的了解。需要编写驱动和代码来实现各种功能，例如网络对时、手动设置时间、设置蜂鸣器闹钟和使用 dht11 温湿度传感器实时显示温湿度，这些都是很实用的功能，也能够增加用户体验。  总的来说，这是一个非常有趣和实用的项目，对于学习嵌入式开发有很大的帮助。在实现过程中，需要不断学习和实践，才能够掌握嵌入式开发的相关技能。  </p>
+<h2 id="7．源码"><a href="#7．源码" class="headerlink" title="7．源码"></a>7．源码</h2><p><a href="https://github.com/mabinglei183/embeddedClock">GitHub</a></p>
+]]></content>
+      <categories>
+        <category>嵌入式</category>
+      </categories>
+      <tags>
+        <tag>嵌入式</tag>
+        <tag>Qt</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI在macOS中监听键盘事件</title>
+    <url>/2023/06/25/SwiftUI-keyboard-listen/</url>
+    <content><![CDATA[<h2 id="SwiftUI监听键盘事件"><a href="#SwiftUI监听键盘事件" class="headerlink" title="SwiftUI监听键盘事件"></a>SwiftUI监听键盘事件</h2><p>正文ssss</p>
+]]></content>
+      <categories>
+        <category>SwiftUI</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2022/12/21/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iPhone进入DFU模式刷机</title>
+    <url>/2023/01/08/iPhone-DFU/</url>
+    <content><![CDATA[<h2 id="DFU是什么？"><a href="#DFU是什么？" class="headerlink" title="DFU是什么？"></a>DFU是什么？</h2><p>DFU全称Development Firmware Upgrade，iPhone固件强制升降级模式</p>
+<p>iPhone有两种特殊的模式：</p>
+<ul>
+<li>恢复模式，屏幕上显示iTunes标志和USB数据线</li>
+<li>DFU模式，也叫强制恢复模式，此模式下iPhone屏幕没有任何显示，是黑屏状态</li>
+</ul>
+<h2 id="什么时候进入DFU模式？"><a href="#什么时候进入DFU模式？" class="headerlink" title="什么时候进入DFU模式？"></a>什么时候进入DFU模式？</h2><ul>
+<li>出现白苹果、无限开机等</li>
+<li>需要深度清洁刷机</li>
+</ul>
+<h2 id="进入DFU模式"><a href="#进入DFU模式" class="headerlink" title="进入DFU模式"></a>进入DFU模式</h2><ol>
+<li>将iPhone开机并用数据线连接到Mac</li>
+<li>按一下音量+</li>
+<li>按一下音量-</li>
+<li>按住电源键直至手机黑屏关机</li>
+<li>此时不要松开电源键，按住音量-</li>
+<li>进入DFU模式</li>
+</ol>
+<h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><ol>
+<li>在Mac的“访达”中找到iPhone</li>
+<li>按住⌥option</li>
+<li>鼠标点击“恢复”，选择下载好的固件</li>
+<li>开始刷机</li>
+</ol>
+]]></content>
+      <categories>
+        <category>iPhone</category>
+      </categories>
+      <tags>
+        <tag>iPhone</tag>
+        <tag>DFU</tag>
+      </tags>
+  </entry>
+</search>
