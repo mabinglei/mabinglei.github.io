@@ -22,6 +22,18 @@
       </tags>
   </entry>
   <entry>
+    <title>SwiftUI在macOS中监听键盘事件</title>
+    <url>/2023/06/25/SwiftUI-keyboard-listen/</url>
+    <content><![CDATA[<h2 id="SwiftUI监听键盘事件"><a href="#SwiftUI监听键盘事件" class="headerlink" title="SwiftUI监听键盘事件"></a>SwiftUI监听键盘事件</h2><p>正文ssss</p>
+]]></content>
+      <categories>
+        <category>SwiftUI</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于嵌入式Qt的多功能电子台历</title>
     <url>/2022/12/21/Qt-clock-embedded/</url>
     <content><![CDATA[<h2 id="1．嵌入式系统概念简述"><a href="#1．嵌入式系统概念简述" class="headerlink" title="1．嵌入式系统概念简述"></a>1．嵌入式系统概念简述</h2><p>嵌入式系统是指将计算机系统集成到其它产品中的技术。这种技术的目的是使用计算机系统来控制和协调其它产品的运行，并通过计算机系统来实现更复杂和更高效的功能。  </p>
@@ -162,18 +174,6 @@
       <tags>
         <tag>嵌入式</tag>
         <tag>Qt</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SwiftUI在macOS中监听键盘事件</title>
-    <url>/2023/06/25/SwiftUI-keyboard-listen/</url>
-    <content><![CDATA[<h2 id="SwiftUI监听键盘事件"><a href="#SwiftUI监听键盘事件" class="headerlink" title="SwiftUI监听键盘事件"></a>SwiftUI监听键盘事件</h2><p>正文ssss</p>
-]]></content>
-      <categories>
-        <category>SwiftUI</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
       </tags>
   </entry>
   <entry>
