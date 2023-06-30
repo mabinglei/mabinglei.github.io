@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>将Java jar包注册为Linux服务</title>
-    <url>/Java-jar-config-Linux-service.html</url>
-    <content><![CDATA[<h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir HttpGetTime</span><br><span class="line">cd HttpGetTime</span><br></pre></td></tr></table></figure>
-
-<h2 id="编写启动脚本"><a href="#编写启动脚本" class="headerlink" title="编写启动脚本"></a>编写启动脚本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim start.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line">nohup /usr/bin/java -jar  /root/HttpGetTime.jar &gt;  /home/HttpGetTime/HttpGetTime.log &amp;</span><br><span class="line">echo $! &gt; /var/run/HttpGetTime.pid</span><br></pre></td></tr></table></figure>
-
-<h2 id="编写停止脚本"><a href="#编写停止脚本" class="headerlink" title="编写停止脚本"></a>编写停止脚本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim stop.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">PID=$(cat /var/run/HttpGetTime.pid)</span><br><span class="line">kill -9 $PID</span><br></pre></td></tr></table></figure>
-
-<h2 id="编写服务"><a href="#编写服务" class="headerlink" title="编写服务"></a>编写服务</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /usr/lib/systemd/system</span><br><span class="line">vim HttpGetTime.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=HttpGetTime_service</span><br><span class="line">After=syslog.target network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/home/HttpGetTime/start.sh</span><br><span class="line">ExecStop=/home/HttpGetTime/stop.sh</span><br><span class="line">PrivateTmp=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-
-<h2 id="服务启动、停止、开机自启"><a href="#服务启动、停止、开机自启" class="headerlink" title="服务启动、停止、开机自启"></a>服务启动、停止、开机自启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl [start|stop|enable] HttpGetTime.service</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>基于嵌入式Qt的多功能电子台历</title>
     <url>/Qt-clock-embedded.html</url>
     <content><![CDATA[<h2 id="1．嵌入式系统概念简述"><a href="#1．嵌入式系统概念简述" class="headerlink" title="1．嵌入式系统概念简述"></a>1．嵌入式系统概念简述</h2><p>嵌入式系统是指将计算机系统集成到其它产品中的技术。这种技术的目的是使用计算机系统来控制和协调其它产品的运行，并通过计算机系统来实现更复杂和更高效的功能。  </p>
@@ -165,6 +144,27 @@
       </tags>
   </entry>
   <entry>
+    <title>将Java jar包注册为Linux服务</title>
+    <url>/Java-jar-config-Linux-service.html</url>
+    <content><![CDATA[<h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir HttpGetTime</span><br><span class="line">cd HttpGetTime</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写启动脚本"><a href="#编写启动脚本" class="headerlink" title="编写启动脚本"></a>编写启动脚本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim start.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line">nohup /usr/bin/java -jar  /root/HttpGetTime.jar &gt;  /home/HttpGetTime/HttpGetTime.log &amp;</span><br><span class="line">echo $! &gt; /var/run/HttpGetTime.pid</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写停止脚本"><a href="#编写停止脚本" class="headerlink" title="编写停止脚本"></a>编写停止脚本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim stop.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">PID=$(cat /var/run/HttpGetTime.pid)</span><br><span class="line">kill -9 $PID</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写服务"><a href="#编写服务" class="headerlink" title="编写服务"></a>编写服务</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /usr/lib/systemd/system</span><br><span class="line">vim HttpGetTime.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=HttpGetTime_service</span><br><span class="line">After=syslog.target network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/home/HttpGetTime/start.sh</span><br><span class="line">ExecStop=/home/HttpGetTime/stop.sh</span><br><span class="line">PrivateTmp=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<h2 id="服务启动、停止、开机自启"><a href="#服务启动、停止、开机自启" class="headerlink" title="服务启动、停止、开机自启"></a>服务启动、停止、开机自启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl [start|stop|enable] HttpGetTime.service</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行</title>
     <url>/SwiftUI-keyboard-listen.html</url>
     <content><![CDATA[<h2 id="SwiftUI监听键盘事件"><a href="#SwiftUI监听键盘事件" class="headerlink" title="SwiftUI监听键盘事件"></a>SwiftUI监听键盘事件</h2><p>SwiftUI中的TextEditor没有类似于TextField的onCommit()或onSubmit()方法，所以无法直接使用Enter键做出此动作。</p>
@@ -177,30 +177,6 @@
       </categories>
       <tags>
         <tag>SwiftUI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/hello-world.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>博客搭建</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -237,6 +213,30 @@
       <tags>
         <tag>iPhone</tag>
         <tag>DFU</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/hello-world.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
       </tags>
   </entry>
 </search>
