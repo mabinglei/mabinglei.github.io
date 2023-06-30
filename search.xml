@@ -22,6 +22,66 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/hello-world.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iPhone进入DFU模式刷机</title>
+    <url>/iPhone-DFU.html</url>
+    <content><![CDATA[<h2 id="DFU是什么？"><a href="#DFU是什么？" class="headerlink" title="DFU是什么？"></a>DFU是什么？</h2><p>DFU全称Development Firmware Upgrade，iPhone固件强制升降级模式</p>
+<p>iPhone有两种特殊的模式：</p>
+<ul>
+<li>恢复模式，屏幕上显示iTunes标志和USB数据线</li>
+<li>DFU模式，也叫强制恢复模式，此模式下iPhone屏幕没有任何显示，是黑屏状态</li>
+</ul>
+<h2 id="什么时候进入DFU模式？"><a href="#什么时候进入DFU模式？" class="headerlink" title="什么时候进入DFU模式？"></a>什么时候进入DFU模式？</h2><ul>
+<li>出现白苹果、无限开机等</li>
+<li>需要深度清洁刷机</li>
+</ul>
+<h2 id="进入DFU模式"><a href="#进入DFU模式" class="headerlink" title="进入DFU模式"></a>进入DFU模式</h2><ol>
+<li>将iPhone开机并用数据线连接到Mac</li>
+<li>按一下音量+</li>
+<li>按一下音量-</li>
+<li>按住电源键直至手机黑屏关机</li>
+<li>此时不要松开电源键，按住音量-</li>
+<li>进入DFU模式</li>
+</ol>
+<h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><ol>
+<li>在Mac的“访达”中找到iPhone</li>
+<li>按住⌥option</li>
+<li>鼠标点击“恢复”，选择下载好的固件</li>
+<li>开始刷机</li>
+</ol>
+]]></content>
+      <categories>
+        <category>iPhone</category>
+      </categories>
+      <tags>
+        <tag>iPhone</tag>
+        <tag>DFU</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于嵌入式Qt的多功能电子台历</title>
     <url>/Qt-clock-embedded.html</url>
     <content><![CDATA[<h2 id="1．嵌入式系统概念简述"><a href="#1．嵌入式系统概念简述" class="headerlink" title="1．嵌入式系统概念简述"></a>1．嵌入式系统概念简述</h2><p>嵌入式系统是指将计算机系统集成到其它产品中的技术。这种技术的目的是使用计算机系统来控制和协调其它产品的运行，并通过计算机系统来实现更复杂和更高效的功能。  </p>
@@ -177,66 +237,6 @@
       </categories>
       <tags>
         <tag>SwiftUI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iPhone进入DFU模式刷机</title>
-    <url>/iPhone-DFU.html</url>
-    <content><![CDATA[<h2 id="DFU是什么？"><a href="#DFU是什么？" class="headerlink" title="DFU是什么？"></a>DFU是什么？</h2><p>DFU全称Development Firmware Upgrade，iPhone固件强制升降级模式</p>
-<p>iPhone有两种特殊的模式：</p>
-<ul>
-<li>恢复模式，屏幕上显示iTunes标志和USB数据线</li>
-<li>DFU模式，也叫强制恢复模式，此模式下iPhone屏幕没有任何显示，是黑屏状态</li>
-</ul>
-<h2 id="什么时候进入DFU模式？"><a href="#什么时候进入DFU模式？" class="headerlink" title="什么时候进入DFU模式？"></a>什么时候进入DFU模式？</h2><ul>
-<li>出现白苹果、无限开机等</li>
-<li>需要深度清洁刷机</li>
-</ul>
-<h2 id="进入DFU模式"><a href="#进入DFU模式" class="headerlink" title="进入DFU模式"></a>进入DFU模式</h2><ol>
-<li>将iPhone开机并用数据线连接到Mac</li>
-<li>按一下音量+</li>
-<li>按一下音量-</li>
-<li>按住电源键直至手机黑屏关机</li>
-<li>此时不要松开电源键，按住音量-</li>
-<li>进入DFU模式</li>
-</ol>
-<h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><ol>
-<li>在Mac的“访达”中找到iPhone</li>
-<li>按住⌥option</li>
-<li>鼠标点击“恢复”，选择下载好的固件</li>
-<li>开始刷机</li>
-</ol>
-]]></content>
-      <categories>
-        <category>iPhone</category>
-      </categories>
-      <tags>
-        <tag>iPhone</tag>
-        <tag>DFU</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/hello-world.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>博客搭建</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
       </tags>
   </entry>
 </search>
