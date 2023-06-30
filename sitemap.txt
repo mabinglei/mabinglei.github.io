@@ -1,10 +1,10 @@
-https://blog.binlay.me/SwiftUI-keyboard-listen
-https://blog.binlay.me/Qt-clock-embedded
-https://blog.binlay.me/Java-jar-config-Linux-service
-https://blog.binlay.me/iPhone-DFU
+https://blog.binlay.me/SwiftUI-keyboard-listen.html
+https://blog.binlay.me/Qt-clock-embedded.html
+https://blog.binlay.me/Java-jar-config-Linux-service.html
+https://blog.binlay.me/iPhone-DFU.html
 https://blog.binlay.me/about/index.html
 https://blog.binlay.me/tags/index.html
-https://blog.binlay.me/hello-world
+https://blog.binlay.me/hello-world.html
 https://blog.binlay.me/categories/index.html
 https://blog.binlay.me/404.html
 https://blog.binlay.me/
