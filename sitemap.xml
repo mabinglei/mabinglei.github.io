@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.binlay.me/SwiftUI-keyboard-listen.html</loc>
+    <loc>https://blog.binlay.me/undefined/SwiftUI-keyboard-listen.html</loc>
     
     <lastmod>2023-06-25</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://blog.binlay.me/Qt-clock-embedded.html</loc>
+    <loc>https://blog.binlay.me/undefined/Qt-clock-embedded.html</loc>
     
     <lastmod>2023-06-25</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://blog.binlay.me/Java-jar-config-Linux-service.html</loc>
+    <loc>https://blog.binlay.me/undefined/Java-jar-config-Linux-service.html</loc>
     
     <lastmod>2023-06-25</lastmod>
     
@@ -29,7 +29,7 @@
   </url>
   
   <url>
-    <loc>https://blog.binlay.me/iPhone-DFU.html</loc>
+    <loc>https://blog.binlay.me/undefined/iPhone-DFU.html</loc>
     
     <lastmod>2023-06-25</lastmod>
     
@@ -56,7 +56,7 @@
   </url>
   
   <url>
-    <loc>https://blog.binlay.me/hello-world.html</loc>
+    <loc>https://blog.binlay.me/undefined/hello-world.html</loc>
     
     <lastmod>2022-12-22</lastmod>
     
@@ -85,7 +85,7 @@
 
   <url>
     <loc>https://blog.binlay.me/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -93,56 +93,56 @@
   
   <url>
     <loc>https://blog.binlay.me/tags/Linux/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/tags/Java/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/tags/Qt/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/tags/SwiftUI/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/tags/%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/tags/iPhone/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/tags/DFU/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -151,35 +151,35 @@
   
   <url>
     <loc>https://blog.binlay.me/categories/Linux/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/categories/SwiftUI/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.binlay.me/categories/iPhone/</loc>
-    <lastmod>2023-06-25</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
