@@ -21,28 +21,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"blog.binlay.me","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqusjs","storage":true,"lazyload":true,"nav":{"disqusjs":{"text":"Disqus","order":-1}},"activeClass":"disqusjs"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="以TextEditor为例说明SwiftUI在macOS中如何监听键盘事件，实现Enter提交，Enter+Option换行">
+    <meta name="description" content="将Java jar包注册为Linux服务">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行">
-<meta property="og:url" content="https://blog.binlay.me/undefined/SwiftUI-keyboard-listen.html">
+<meta property="og:title" content="将Java jar包注册为Linux服务">
+<meta property="og:url" content="https://blog.binlay.me/Java-jar-config-Linux-service">
 <meta property="og:site_name" content="Binglei&#39;s blog">
-<meta property="og:description" content="以TextEditor为例说明SwiftUI在macOS中如何监听键盘事件，实现Enter提交，Enter+Option换行">
+<meta property="og:description" content="将Java jar包注册为Linux服务">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-06-25T11:21:29.000Z">
-<meta property="article:modified_time" content="2023-06-25T13:57:09.765Z">
+<meta property="article:published_time" content="2022-12-24T09:25:37.000Z">
+<meta property="article:modified_time" content="2023-06-25T13:57:03.350Z">
 <meta property="article:author" content="Binglei">
-<meta property="article:tag" content="SwiftUI">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://blog.binlay.me/undefined/SwiftUI-keyboard-listen.html">
+<link rel="canonical" href="https://blog.binlay.me/Java-jar-config-Linux-service">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.binlay.me/undefined/SwiftUI-keyboard-listen.html","path":"undefined/SwiftUI-keyboard-listen.html","title":"SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.binlay.me/Java-jar-config-Linux-service","path":"Java-jar-config-Linux-service","title":"将Java jar包注册为Linux服务"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行 | Binglei's blog</title>
+<title>将Java jar包注册为Linux服务 | Binglei's blog</title>
   
 
 
@@ -144,7 +145,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SwiftUI%E7%9B%91%E5%90%AC%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">SwiftUI监听键盘事件</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">创建目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC"><span class="nav-number">2.</span> <span class="nav-text">编写启动脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E5%81%9C%E6%AD%A2%E8%84%9A%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">编写停止脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.</span> <span class="nav-text">编写服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E3%80%81%E5%81%9C%E6%AD%A2%E3%80%81%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF"><span class="nav-number">5.</span> <span class="nav-text">服务启动、停止、开机自启</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -226,7 +227,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.binlay.me/undefined/SwiftUI-keyboard-listen.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.binlay.me/Java-jar-config-Linux-service">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/scale.png">
@@ -239,12 +240,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行 | Binglei's blog">
-      <meta itemprop="description" content="以TextEditor为例说明SwiftUI在macOS中如何监听键盘事件，实现Enter提交，Enter+Option换行">
+      <meta itemprop="name" content="将Java jar包注册为Linux服务 | Binglei's blog">
+      <meta itemprop="description" content="将Java jar包注册为Linux服务">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行
+          将Java jar包注册为Linux服务
         </h1>
 
         <div class="post-meta-container">
@@ -254,9 +255,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-06-25 19:21:29 / 修改时间：21:57:09" itemprop="dateCreated datePublished" datetime="2023-06-25T19:21:29+08:00">2023-06-25</time>
+      <time title="创建时间：2022-12-24 17:25:37" itemprop="dateCreated datePublished" datetime="2022-12-24T17:25:37+08:00">2022-12-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-06-25 21:57:03" itemprop="dateModified" datetime="2023-06-25T21:57:03+08:00">2023-06-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -264,7 +271,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/SwiftUI/" itemprop="url" rel="index"><span itemprop="name">SwiftUI</span></a>
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
         </span>
     </span>
 
@@ -275,7 +282,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.4k</span>
+      <span>612</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -286,7 +293,7 @@
     </span>
 </div>
 
-            <div class="post-description">以TextEditor为例说明SwiftUI在macOS中如何监听键盘事件，实现Enter提交，Enter+Option换行</div>
+            <div class="post-description">将Java jar包注册为Linux服务</div>
         </div>
       </header>
 
@@ -294,10 +301,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="SwiftUI监听键盘事件"><a href="#SwiftUI监听键盘事件" class="headerlink" title="SwiftUI监听键盘事件"></a>SwiftUI监听键盘事件</h2><p>SwiftUI中的TextEditor没有类似于TextField的onCommit()或onSubmit()方法，所以无法直接使用Enter键做出此动作。</p>
-<p>下面是一个变通方法，使用NSEvent监听实现Enter提交，Enter+Option换行</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TestView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">  <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> text <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">	<span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">    <span class="type">TextEditor</span>(text: <span class="variable">$text</span>)</span><br><span class="line">      <span class="comment">/*</span></span><br><span class="line"><span class="comment">       此处的onChange()是确保按下Enter后能清空TextEditor</span></span><br><span class="line"><span class="comment">       SwiftUI有Bug，text = &quot;&quot;并不能完全清空TextEditor，它可能存在换行行为</span></span><br><span class="line"><span class="comment">       异步操作模拟按下&quot;delete键&quot;，保证TextEditor完全清空</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line">      .onChange(of: message.messages.count, perform: &#123; <span class="keyword">_</span> <span class="keyword">in</span></span><br><span class="line">        text <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">        <span class="type">DispatchQueue</span>.main.asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">0.001</span>) &#123;</span><br><span class="line">            <span class="type">NSApplication</span>.shared.sendAction(<span class="keyword">#selector</span>(<span class="type">NSText</span>.deleteBackward(<span class="keyword">_</span>:)), to: <span class="literal">nil</span>, from: <span class="literal">nil</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">      .font(.title2)</span><br><span class="line">      .padding(<span class="number">5</span>)</span><br><span class="line">      .focused(<span class="variable">$isFocused</span>)</span><br><span class="line">      .frame(minHeight: <span class="number">15</span>, maxHeight: <span class="number">180</span>)</span><br><span class="line">      .fixedSize(horizontal: <span class="literal">false</span>, vertical: <span class="literal">true</span>)<span class="comment">//使其支持动态调整高度</span></span><br><span class="line">      .scrollContentBackground(.hidden)<span class="comment">//去除白色的背景，使其透明</span></span><br><span class="line">      .overlay(</span><br><span class="line">          <span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">15</span>)</span><br><span class="line">              .stroke(isFocused <span class="operator">==</span> <span class="literal">true</span> <span class="operator">?</span> <span class="type">Color</span>.blue : <span class="type">Color</span>.secondary, lineWidth: isFocused <span class="operator">==</span> <span class="literal">true</span> <span class="operator">?</span> <span class="number">2</span> : <span class="number">0.3</span>)</span><br><span class="line">      )<span class="comment">//圆角遮罩</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     实现Enter提交，Enter+Option换行</span></span><br><span class="line"><span class="comment">     注意不能将下面的代码放到NavigationStack里面，否则会提交两次</span></span><br><span class="line"><span class="comment">     也就是说&quot;Enter提交&quot;会重复两次,这是不符合预期的</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">      .onAppear &#123;</span><br><span class="line">        <span class="type">NSEvent</span>.addLocalMonitorForEvents(matching: [.keyDown]) &#123; nsevent <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">if</span> nsevent.keyCode <span class="operator">==</span> <span class="number">36</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>nsevent.modifierFlags.contains(.option) &#123;</span><br><span class="line">                <span class="keyword">if</span> text.last <span class="operator">!=</span> <span class="literal">nil</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> <span class="operator">!</span>text.isEmpty, <span class="operator">!</span>text.allSatisfy(&#123; <span class="variable">$0</span>.isNewline &#125;) &#123;</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&quot;Enter提交&quot;</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> nsevent</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir HttpGetTime</span><br><span class="line">cd HttpGetTime</span><br></pre></td></tr></table></figure>
 
+<h2 id="编写启动脚本"><a href="#编写启动脚本" class="headerlink" title="编写启动脚本"></a>编写启动脚本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim start.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line">nohup /usr/bin/java -jar  /root/HttpGetTime.jar &gt;  /home/HttpGetTime/HttpGetTime.log &amp;</span><br><span class="line">echo $! &gt; /var/run/HttpGetTime.pid</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写停止脚本"><a href="#编写停止脚本" class="headerlink" title="编写停止脚本"></a>编写停止脚本</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim stop.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">PID=$(cat /var/run/HttpGetTime.pid)</span><br><span class="line">kill -9 $PID</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写服务"><a href="#编写服务" class="headerlink" title="编写服务"></a>编写服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/lib/systemd/system</span><br><span class="line">vim HttpGetTime.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=HttpGetTime_service</span><br><span class="line">After=syslog.target network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/home/HttpGetTime/start.sh</span><br><span class="line">ExecStop=/home/HttpGetTime/stop.sh</span><br><span class="line">PrivateTmp=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<h2 id="服务启动、停止、开机自启"><a href="#服务启动、停止、开机自启" class="headerlink" title="服务启动、停止、开机自启"></a>服务启动、停止、开机自启</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl [start|stop|enable] HttpGetTime.service</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -315,7 +327,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://blog.binlay.me/undefined/SwiftUI-keyboard-listen.html" title="SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行">https://blog.binlay.me/undefined/SwiftUI-keyboard-listen.html</a>
+      <a href="https://blog.binlay.me/Java-jar-config-Linux-service" title="将Java jar包注册为Linux服务">https://blog.binlay.me/Java-jar-config-Linux-service</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -324,18 +336,22 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/SwiftUI/" rel="tag"># SwiftUI</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Java/" rel="tag"># Java</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/undefined/iPhone-DFU.html" rel="prev" title="iPhone进入DFU模式刷机">
-                  <i class="fa fa-chevron-left"></i> iPhone进入DFU模式刷机
+                <a href="/Qt-clock-embedded" rel="prev" title="基于嵌入式Qt的多功能电子台历">
+                  <i class="fa fa-chevron-left"></i> 基于嵌入式Qt的多功能电子台历
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/iPhone-DFU" rel="next" title="iPhone进入DFU模式刷机">
+                  iPhone进入DFU模式刷机 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
