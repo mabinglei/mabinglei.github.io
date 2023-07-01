@@ -106,20 +106,6 @@
   </url>
   
   <url>
-    <loc>https://blog.binlay.me/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/</loc>
-    <lastmod>2023-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.binlay.me/tags/Qt/</loc>
-    <lastmod>2023-07-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.binlay.me/tags/SwiftUI/</loc>
     <lastmod>2023-07-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -147,17 +133,24 @@
     <priority>0.2</priority>
   </url>
   
-
-  
   <url>
-    <loc>https://blog.binlay.me/categories/Linux/</loc>
+    <loc>https://blog.binlay.me/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/</loc>
     <lastmod>2023-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.binlay.me/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/</loc>
+    <loc>https://blog.binlay.me/tags/Qt/</loc>
+    <lastmod>2023-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+
+  
+  <url>
+    <loc>https://blog.binlay.me/categories/Linux/</loc>
     <lastmod>2023-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -179,6 +172,13 @@
   
   <url>
     <loc>https://blog.binlay.me/categories/iPhone/</loc>
+    <lastmod>2023-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.binlay.me/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/</loc>
     <lastmod>2023-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
