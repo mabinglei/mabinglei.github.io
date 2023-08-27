@@ -1,6 +1,6 @@
+https://blog.binlay.me/Qt-clock-embedded
 https://blog.binlay.me/Switch-x86-and-ARM-Homebrew-on-M1-Mac
 https://blog.binlay.me/SwiftUI-keyboard-listen
-https://blog.binlay.me/Qt-clock-embedded
 https://blog.binlay.me/Java-jar-config-Linux-service
 https://blog.binlay.me/iPhone-DFU
 https://blog.binlay.me/about/index.html

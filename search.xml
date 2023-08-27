@@ -154,7 +154,7 @@
 <h2 id="5．实际运行效果"><a href="#5．实际运行效果" class="headerlink" title="5．实际运行效果"></a>5．实际运行效果</h2>
 
 <h2 id="6．小结"><a href="#6．小结" class="headerlink" title="6．小结"></a>6．小结</h2><p>电子台历在嵌入式开发板上的实现是一个很有趣的项目，通过它可以学习到很多有关嵌入式开发的知识。在实现过程中，需要熟悉嵌入式开发板的使用，并对相关的硬件设备有一定的了解。需要编写驱动和代码来实现各种功能，例如网络对时、手动设置时间、设置蜂鸣器闹钟和使用 dht11 温湿度传感器实时显示温湿度，这些都是很实用的功能，也能够增加用户体验。  总的来说，这是一个非常有趣和实用的项目，对于学习嵌入式开发有很大的帮助。在实现过程中，需要不断学习和实践，才能够掌握嵌入式开发的相关技能。  </p>
-<h2 id="7．源码"><a href="#7．源码" class="headerlink" title="7．源码"></a>7．源码</h2><p><a href="https://github.com/mabinglei183/embeddedClock">GitHub</a></p>
+<h2 id="7．源码"><a href="#7．源码" class="headerlink" title="7．源码"></a>7．源码</h2><p><a href="https://github.com/mabinglei/embeddedClock">GitHub</a></p>
 ]]></content>
       <categories>
         <category>嵌入式</category>
