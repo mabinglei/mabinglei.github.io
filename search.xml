@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>将Java jar包注册为Linux服务</title>
+    <url>/Java-jar-config-Linux-service.html</url>
+    <content><![CDATA[<h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir HttpGetTime</span><br><span class="line">cd HttpGetTime</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写启动脚本"><a href="#编写启动脚本" class="headerlink" title="编写启动脚本"></a>编写启动脚本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim start.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line">nohup /usr/bin/java -jar  /root/HttpGetTime.jar &gt;  /home/HttpGetTime/HttpGetTime.log &amp;</span><br><span class="line">echo $! &gt; /var/run/HttpGetTime.pid</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写停止脚本"><a href="#编写停止脚本" class="headerlink" title="编写停止脚本"></a>编写停止脚本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim stop.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">PID=$(cat /var/run/HttpGetTime.pid)</span><br><span class="line">kill -9 $PID</span><br></pre></td></tr></table></figure>
+
+<h2 id="编写服务"><a href="#编写服务" class="headerlink" title="编写服务"></a>编写服务</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /usr/lib/systemd/system</span><br><span class="line">vim HttpGetTime.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=HttpGetTime_service</span><br><span class="line">After=syslog.target network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/home/HttpGetTime/start.sh</span><br><span class="line">ExecStop=/home/HttpGetTime/stop.sh</span><br><span class="line">PrivateTmp=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<h2 id="服务启动、停止、开机自启"><a href="#服务启动、停止、开机自启" class="headerlink" title="服务启动、停止、开机自启"></a>服务启动、停止、开机自启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl [start|stop|enable] HttpGetTime.service</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Nginx sni proxy, get real IP and build</title>
     <url>/Nginx-sni-proxy-get-real-IP-build.html</url>
     <content><![CDATA[<h2 id="一、编译Nginx"><a href="#一、编译Nginx" class="headerlink" title="一、编译Nginx"></a>一、编译Nginx</h2><ol>
@@ -59,7 +80,7 @@
 </blockquote>
 <ol>
 <li><p>下载源码</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载源码（-b 指定分支/标签、 --single-branch 仅下载单个分支/标签、 --depth=1 只下载最新的一次提交 ）</span></span><br><span class="line">git clone -b v25.12.0 --single-branch --depth=1 https://github.com/openwrt/openwrt.git</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入该目录</span></span><br><span class="line">cd openwrt</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载源码（-b 指定分支/标签、 --single-branch 仅下载单个分支/标签、 --depth=1 只下载最新的一次提交 ）</span></span><br><span class="line">git clone -b v24.10.5 --single-branch --depth=1 https://github.com/openwrt/openwrt.git</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入该目录</span></span><br><span class="line">cd openwrt</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>修改默认时区和网络</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑配置文件</span></span><br><span class="line">vim package/base-files/files/bin/config_generate</span><br></pre></td></tr></table></figure>
@@ -68,8 +89,18 @@
 <li><p>修改时区</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改时区为 CST-8</span></span><br><span class="line">set system.@system[-1].timezone=&#x27;CST-8&#x27;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改地区为 Asia/Shanghai</span></span><br><span class="line">set system.@system[-1].zonename=&#x27;Asia/Shanghai&#x27;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>修改NTP服务器，推荐下面几个服务器</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ntp.ntsc.ac.cn # 中国科学院国家授时中心</span><br><span class="line">time.apple.com # Apple NTP服务器</span><br><span class="line">cn.ntp.org.cn # NTP授时快速域名服务</span><br><span class="line">cn.pool.ntp.org # 开源NTP服务器</span><br></pre></td></tr></table></figure>
+<li><p>修改NTP服务器，推荐下面几个服务器，从上至下，依次是</p>
+<ul>
+<li><p>中国科学院国家授时中心</p>
+</li>
+<li><p>Apple NTP服务器</p>
+</li>
+<li><p>NTP授时快速域名服务</p>
+</li>
+<li><p>开源NTP服务器</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">add_list system.ntp.server=&#x27;ntp.ntsc.ac.cn&#x27;</span><br><span class="line">add_list system.ntp.server=&#x27;time.apple.com&#x27;</span><br><span class="line">add_list system.ntp.server=&#x27;cn.ntp.org.cn&#x27;</span><br><span class="line">add_list system.ntp.server=&#x27;cn.pool.ntp.org&#x27;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>修改IP、网关和DNS</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lan) ipad=$&#123;ipaddr:-&quot;192.168.1.1&quot;&#125; ;;</span><br></pre></td></tr></table></figure>
@@ -84,8 +115,8 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/openwrt</span><br><span class="line">./scripts/feeds clean</span><br><span class="line">./scripts/feeds update -a</span><br><span class="line">./scripts/feeds install -a</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>配置</p>
-<p>首先替换<code>.config</code>为官方版本，<strong>该步骤非常关键</strong>，关乎以后能否热更新模块，这里以25.12.0版本，x86&#x2F;64架构为例</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/openwrt</span><br><span class="line">wget https://downloads.openwrt.org/releases/25.12.0/targets/x86/64/config.buildinfo</span><br><span class="line">rm -rf .config</span><br><span class="line">mv config.buildinfo .config</span><br></pre></td></tr></table></figure>
+<p>首先替换<code>.config</code>为官方版本，<strong>该步骤非常关键</strong>，关乎以后能否热更新模块，这里以24.10.5版本，x86&#x2F;64架构为例</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/openwrt</span><br><span class="line">wget https://downloads.openwrt.org/releases/24.10.5/targets/x86/64/config.buildinfo</span><br><span class="line">rm -rf .config</span><br><span class="line">mv config.buildinfo .config</span><br></pre></td></tr></table></figure>
 
 <p>接着执行下面的命令，进入配置菜单</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
@@ -114,8 +145,8 @@
 <li>&lt;  &gt; tar.gz</li>
 <li>&lt;  &gt; ext4</li>
 <li>&lt;  &gt; Build GRUB images</li>
-<li><strong>(1) Seconds to wait before booting the default entry &#x2F;&#x2F; 尽可能快的重启OpenWrt</strong></li>
-<li><strong>(256) Kernel partition size (in MB)</strong></li>
+<li><strong>(0) Seconds to wait before booting the default entry &#x2F;&#x2F; 尽可能快的重启OpenWrt</strong></li>
+<li><strong>(64) Kernel partition size (in MB)</strong></li>
 <li><strong>(2048) Root filesystem partition size (in MB)  &#x2F;&#x2F; 建议尽可能多的分配存储空间</strong></li>
 </ul>
 </li>
@@ -192,8 +223,8 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>OpenWrt</tag>
         <tag>Linux</tag>
+        <tag>OpenWrt</tag>
       </tags>
   </entry>
   <entry>
@@ -400,27 +431,6 @@
       </categories>
       <tags>
         <tag>homebrew</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>将Java jar包注册为Linux服务</title>
-    <url>/Java-jar-config-Linux-service.html</url>
-    <content><![CDATA[<h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir HttpGetTime</span><br><span class="line">cd HttpGetTime</span><br></pre></td></tr></table></figure>
-
-<h2 id="编写启动脚本"><a href="#编写启动脚本" class="headerlink" title="编写启动脚本"></a>编写启动脚本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim start.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line">nohup /usr/bin/java -jar  /root/HttpGetTime.jar &gt;  /home/HttpGetTime/HttpGetTime.log &amp;</span><br><span class="line">echo $! &gt; /var/run/HttpGetTime.pid</span><br></pre></td></tr></table></figure>
-
-<h2 id="编写停止脚本"><a href="#编写停止脚本" class="headerlink" title="编写停止脚本"></a>编写停止脚本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim stop.sh</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">PID=$(cat /var/run/HttpGetTime.pid)</span><br><span class="line">kill -9 $PID</span><br></pre></td></tr></table></figure>
-
-<h2 id="编写服务"><a href="#编写服务" class="headerlink" title="编写服务"></a>编写服务</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /usr/lib/systemd/system</span><br><span class="line">vim HttpGetTime.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=HttpGetTime_service</span><br><span class="line">After=syslog.target network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/home/HttpGetTime/start.sh</span><br><span class="line">ExecStop=/home/HttpGetTime/stop.sh</span><br><span class="line">PrivateTmp=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-
-<h2 id="服务启动、停止、开机自启"><a href="#服务启动、停止、开机自启" class="headerlink" title="服务启动、停止、开机自启"></a>服务启动、停止、开机自启</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl [start|stop|enable] HttpGetTime.service</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
