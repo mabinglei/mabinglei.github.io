@@ -64,6 +64,160 @@
       </tags>
   </entry>
   <entry>
+    <title>OpenWrt 编译</title>
+    <url>/OpenWrt-Compilation.html</url>
+    <content><![CDATA[<h2 id="一、准备编译环境"><a href="#一、准备编译环境" class="headerlink" title="一、准备编译环境"></a>一、准备编译环境</h2><ol>
+<li><p>一个Linux发行版，这里以<a href="https://ubuntu.com/download/server">Ubuntu 24.04.3 LTS</a>为例</p>
+</li>
+<li><p>执行下面的命令，安装工具链，详情参考<a href="https://openwrt.org/docs/guide-developer/toolchain/install-buildsystem">OpenWrt官网</a></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install build-essential clang flex bison g++ gawk \</span><br><span class="line">gcc-multilib g++-multilib gettext git libncurses5-dev libssl-dev \</span><br><span class="line">python3-setuptools rsync swig unzip zlib1g-dev file wget</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="二、下载源码并配置"><a href="#二、下载源码并配置" class="headerlink" title="二、下载源码并配置"></a>二、下载源码并配置</h2><blockquote>
+<ol>
+<li><strong>使用普通用户完成下面所有操作，不要使用<code>root</code></strong></li>
+<li>下面的操作不涉及第三方feeds的添加，这些工具应该在安装完OpenWrt系统后手动安装，不应该编译到固件里面，以免造成编译错误或者固件不稳定</li>
+</ol>
+</blockquote>
+<ol>
+<li><p>下载源码</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">下载源码（-b 指定分支/标签、 --single-branch 仅下载单个分支/标签、 --depth=1 只下载最新的一次提交 ）</span></span><br><span class="line">git clone -b v25.12.0 --single-branch --depth=1 https://github.com/openwrt/openwrt.git</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入该目录</span></span><br><span class="line">cd openwrt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改默认时区和网络</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">编辑配置文件</span></span><br><span class="line">vim package/base-files/files/bin/config_generate</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>修改时区</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改时区为 CST-8</span></span><br><span class="line">set system.@system[-1].timezone=&#x27;CST-8&#x27;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改地区为 Asia/Shanghai</span></span><br><span class="line">set system.@system[-1].zonename=&#x27;Asia/Shanghai&#x27;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改NTP服务器，推荐下面几个服务器</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ntp.ntsc.ac.cn # 中国科学院国家授时中心</span><br><span class="line">time.apple.com # Apple NTP服务器</span><br><span class="line">cn.ntp.org.cn # NTP授时快速域名服务</span><br><span class="line">cn.pool.ntp.org # 开源NTP服务器</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改IP、网关和DNS</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lan) ipad=$&#123;ipaddr:-&quot;192.168.1.1&quot;&#125; ;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在uci -q batch &lt;&lt;-EOF部分添加下面的内容</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">set network.$1.gateway=&#x27;192.168.1.1&#x27;</span><br><span class="line">set network.$1.dns=&#x27;127.0.0.1 223.5.5.5 8.8.8.8&#x27;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>更新并安装插件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/openwrt</span><br><span class="line">./scripts/feeds clean</span><br><span class="line">./scripts/feeds update -a</span><br><span class="line">./scripts/feeds install -a</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置</p>
+<p>首先替换<code>.config</code>为官方版本，<strong>该步骤非常关键</strong>，关乎以后能否热更新模块，这里以25.12.0版本，x86&#x2F;64架构为例</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/openwrt</span><br><span class="line">wget https://downloads.openwrt.org/releases/25.12.0/targets/x86/64/config.buildinfo</span><br><span class="line">rm -rf .config</span><br><span class="line">mv config.buildinfo .config</span><br></pre></td></tr></table></figure>
+
+<p>接着执行下面的命令，进入配置菜单</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
+
+<p>该界面有如下操作</p>
+<ul>
+<li><code>↑ ↓</code> 键：上下切换</li>
+<li><code>PgUp PgDn</code> 键：上下翻页</li>
+<li><code>Enter</code> 回车键：<ul>
+<li>进入子菜单</li>
+<li>选择&#x2F;确认</li>
+</ul>
+</li>
+<li><code>Y</code> 键：选中，在 <code>&lt; &gt;</code> 上进行操作，操作后变为 <code>&lt;*&gt;</code></li>
+<li><code>N</code> 键：取消选中，在 <code>&lt;*&gt;</code> 上进行操作，操作后变为 <code>&lt; &gt;</code></li>
+<li><code>Esc</code> 键：连击两下，返回上层菜单，如果在主菜单则为退出配置</li>
+<li><code>/</code>键：调出搜索功能</li>
+</ul>
+<p>按照下面的清单配置，加粗部分强烈建议配置</p>
+<blockquote>
+<ul>
+<li>Target System -&gt; x86</li>
+<li>Subtarget -&gt; x86_64</li>
+<li>Target Profile -&gt; Generic x86&#x2F;64</li>
+<li>Target Images<ul>
+<li>&lt;  &gt; tar.gz</li>
+<li>&lt;  &gt; ext4</li>
+<li>&lt;  &gt; Build GRUB images</li>
+<li><strong>(1) Seconds to wait before booting the default entry &#x2F;&#x2F; 尽可能快的重启OpenWrt</strong></li>
+<li><strong>(256) Kernel partition size (in MB)</strong></li>
+<li><strong>(2048) Root filesystem partition size (in MB)  &#x2F;&#x2F; 建议尽可能多的分配存储空间</strong></li>
+</ul>
+</li>
+<li>Base system<ul>
+<li>&lt;*&gt; block-mount</li>
+<li><strong>&lt;  &gt; dnsmasq &#x2F;&#x2F; 不选，使用下面</strong></li>
+<li><strong>&lt;*&gt; dnsmasq-full &#x2F;&#x2F; dnsmasq完整版本</strong></li>
+</ul>
+</li>
+<li>LuCI<ul>
+<li>Collections<ul>
+<li><strong>&lt;*&gt; luci</strong></li>
+<li>&lt;  &gt; luci-ssl &#x2F;&#x2F; 不选，使用下面</li>
+<li>&lt;*&gt; luci-ssl-openssl &#x2F;&#x2F; OpenSSL版</li>
+</ul>
+</li>
+<li>Modules<ul>
+<li>Translations<ul>
+<li>&lt;*&gt; Simplified Chinese (zh_Hans)</li>
+</ul>
+</li>
+<li>&lt;*&gt; luci-compat</li>
+</ul>
+</li>
+<li>Applications<ul>
+<li>这里不动，安装好OpenWrt系统后手动安装最新版本即可</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Network<ul>
+<li>File Transfer<ul>
+<li>&lt;*&gt; curl</li>
+<li>&lt;*&gt; wget-ssl</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Utilities<ul>
+<li>&lt;*&gt; open-vm-tools &#x2F;&#x2F; 非必选，按需选择</li>
+<li>&lt;*&gt; open-vm-tools-fuse &#x2F;&#x2F; 非必选，按需选择</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>注意，如果配置错误，可以执行下面的命令重新配置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rm -rf ./tmp &amp;&amp; rm -rf .config</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="三、编译固件"><a href="#三、编译固件" class="headerlink" title="三、编译固件"></a>三、编译固件</h2><ol>
+<li><p>预下载</p>
+<p>会先下载大部分编译所需文件，后面编译阶段还会下载</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make download -j8 V=s</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译</p>
+<ul>
+<li><p>全核编译</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make V=s -j$(nproc)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>单线程编译</p>
+<blockquote>
+<p>如果全核编译报错，需要使用单线程编译，排查错误</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make V=s -j1</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>编译过程非常漫长，以<code>Intel Core i5-10400</code>为例，需要2个小时</p>
+<blockquote>
+<p>如果实在无法找出错误，建议执行下面的命令后从<code>二、下载源码并配置</code>重新开始</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rm -rf ~/openwrt</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="四、获取结果（以x86-x2F-64为例）"><a href="#四、获取结果（以x86-x2F-64为例）" class="headerlink" title="四、获取结果（以x86&#x2F;64为例）"></a>四、获取结果（以x86&#x2F;64为例）</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/openwrt/bin/targets/x86/64/</span><br><span class="line">ls -all</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>OpenWrt</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于嵌入式Qt的多功能电子台历</title>
     <url>/Qt-clock-embedded.html</url>
     <content><![CDATA[<h2 id="1．嵌入式系统概念简述"><a href="#1．嵌入式系统概念简述" class="headerlink" title="1．嵌入式系统概念简述"></a>1．嵌入式系统概念简述</h2><p>嵌入式系统是指将计算机系统集成到其它产品中的技术。这种技术的目的是使用计算机系统来控制和协调其它产品的运行，并通过计算机系统来实现更复杂和更高效的功能。  </p>
@@ -207,21 +361,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行</title>
-    <url>/SwiftUI-keyboard-listen.html</url>
-    <content><![CDATA[<h2 id="SwiftUI监听键盘事件"><a href="#SwiftUI监听键盘事件" class="headerlink" title="SwiftUI监听键盘事件"></a>SwiftUI监听键盘事件</h2><p>SwiftUI中的TextEditor没有类似于TextField的onCommit()或onSubmit()方法，所以无法直接使用Enter键做出此动作。</p>
-<p>下面是一个变通方法，使用NSEvent监听实现Enter提交，Enter+Option换行</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TestView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">  <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> text <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">  <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">    <span class="type">TextEditor</span>(text: <span class="variable">$text</span>)</span><br><span class="line">          <span class="comment">/*</span></span><br><span class="line"><span class="comment">           此处的onChange()是确保按下Enter后能清空TextEditor</span></span><br><span class="line"><span class="comment">           SwiftUI有Bug，text = &quot;&quot;并不能完全清空TextEditor，它可能存在换行行为</span></span><br><span class="line"><span class="comment">           异步操作模拟按下&quot;delete键&quot;，保证TextEditor完全清空</span></span><br><span class="line"><span class="comment">          */</span></span><br><span class="line">          .onChange(of: message.messages.count, perform: &#123; <span class="keyword">_</span> <span class="keyword">in</span></span><br><span class="line">            text <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">            <span class="type">DispatchQueue</span>.main.asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">0.001</span>) &#123;</span><br><span class="line">                <span class="type">NSApplication</span>.shared.sendAction(<span class="keyword">#selector</span>(<span class="type">NSText</span>.deleteBackward(<span class="keyword">_</span>:)), to: <span class="literal">nil</span>, from: <span class="literal">nil</span>)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">          .font(.title2)</span><br><span class="line">          .padding(<span class="number">5</span>)</span><br><span class="line">          .focused(<span class="variable">$isFocused</span>)</span><br><span class="line">          .frame(minHeight: <span class="number">15</span>, maxHeight: <span class="number">180</span>)</span><br><span class="line">          .fixedSize(horizontal: <span class="literal">false</span>, vertical: <span class="literal">true</span>)<span class="comment">//使其支持动态调整高度</span></span><br><span class="line">          .scrollContentBackground(.hidden)<span class="comment">//去除白色的背景，使其透明</span></span><br><span class="line">          .overlay(</span><br><span class="line">              <span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">15</span>)</span><br><span class="line">                  .stroke(isFocused <span class="operator">==</span> <span class="literal">true</span> <span class="operator">?</span> <span class="type">Color</span>.blue : <span class="type">Color</span>.secondary, lineWidth: isFocused <span class="operator">==</span> <span class="literal">true</span> <span class="operator">?</span> <span class="number">2</span> : <span class="number">0.3</span>)</span><br><span class="line">          )<span class="comment">//圆角遮罩</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         实现Enter提交，Enter+Option换行</span></span><br><span class="line"><span class="comment">         注意不能将下面的代码放到NavigationStack里面，否则会提交两次</span></span><br><span class="line"><span class="comment">         也就是说&quot;Enter提交&quot;会重复两次,这是不符合预期的</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">          .onAppear &#123;</span><br><span class="line">            <span class="type">NSEvent</span>.addLocalMonitorForEvents(matching: [.keyDown]) &#123; nsevent <span class="keyword">in</span></span><br><span class="line">                <span class="keyword">if</span> nsevent.keyCode <span class="operator">==</span> <span class="number">36</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>nsevent.modifierFlags.contains(.option) &#123;</span><br><span class="line">                    <span class="keyword">if</span> text.last <span class="operator">!=</span> <span class="literal">nil</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span> <span class="operator">!</span>text.isEmpty, <span class="operator">!</span>text.allSatisfy(&#123; <span class="variable">$0</span>.isNewline &#125;) &#123;</span><br><span class="line">                            <span class="built_in">print</span>(<span class="string">&quot;Enter提交&quot;</span>)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> nsevent</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>SwiftUI</category>
-      </categories>
-      <tags>
-        <tag>SwiftUI</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>在 M1 Mac 上切换 x86 和 ARM Homebrew</title>
     <url>/Switch-x86-and-ARM-Homebrew-on-M1-Mac.html</url>
     <content><![CDATA[<h2 id="安装Homebrew"><a href="#安装Homebrew" class="headerlink" title="安装Homebrew"></a>安装Homebrew</h2><h3 id="1-安装ARM版"><a href="#1-安装ARM版" class="headerlink" title="1. 安装ARM版"></a>1. 安装ARM版</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;</span><br></pre></td></tr></table></figure>
@@ -267,6 +406,21 @@
       </categories>
       <tags>
         <tag>homebrew</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SwiftUI在macOS中监听键盘事件，在TextEditor中实现Enter提交，Enter+Option换行</title>
+    <url>/SwiftUI-keyboard-listen.html</url>
+    <content><![CDATA[<h2 id="SwiftUI监听键盘事件"><a href="#SwiftUI监听键盘事件" class="headerlink" title="SwiftUI监听键盘事件"></a>SwiftUI监听键盘事件</h2><p>SwiftUI中的TextEditor没有类似于TextField的onCommit()或onSubmit()方法，所以无法直接使用Enter键做出此动作。</p>
+<p>下面是一个变通方法，使用NSEvent监听实现Enter提交，Enter+Option换行</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> SwiftUI</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TestView</span>: <span class="title class_">View</span> &#123;</span><br><span class="line">  <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> text <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">  <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">    <span class="type">TextEditor</span>(text: <span class="variable">$text</span>)</span><br><span class="line">          <span class="comment">/*</span></span><br><span class="line"><span class="comment">           此处的onChange()是确保按下Enter后能清空TextEditor</span></span><br><span class="line"><span class="comment">           SwiftUI有Bug，text = &quot;&quot;并不能完全清空TextEditor，它可能存在换行行为</span></span><br><span class="line"><span class="comment">           异步操作模拟按下&quot;delete键&quot;，保证TextEditor完全清空</span></span><br><span class="line"><span class="comment">          */</span></span><br><span class="line">          .onChange(of: message.messages.count, perform: &#123; <span class="keyword">_</span> <span class="keyword">in</span></span><br><span class="line">            text <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">            <span class="type">DispatchQueue</span>.main.asyncAfter(deadline: .now() <span class="operator">+</span> <span class="number">0.001</span>) &#123;</span><br><span class="line">                <span class="type">NSApplication</span>.shared.sendAction(<span class="keyword">#selector</span>(<span class="type">NSText</span>.deleteBackward(<span class="keyword">_</span>:)), to: <span class="literal">nil</span>, from: <span class="literal">nil</span>)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">          .font(.title2)</span><br><span class="line">          .padding(<span class="number">5</span>)</span><br><span class="line">          .focused(<span class="variable">$isFocused</span>)</span><br><span class="line">          .frame(minHeight: <span class="number">15</span>, maxHeight: <span class="number">180</span>)</span><br><span class="line">          .fixedSize(horizontal: <span class="literal">false</span>, vertical: <span class="literal">true</span>)<span class="comment">//使其支持动态调整高度</span></span><br><span class="line">          .scrollContentBackground(.hidden)<span class="comment">//去除白色的背景，使其透明</span></span><br><span class="line">          .overlay(</span><br><span class="line">              <span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">15</span>)</span><br><span class="line">                  .stroke(isFocused <span class="operator">==</span> <span class="literal">true</span> <span class="operator">?</span> <span class="type">Color</span>.blue : <span class="type">Color</span>.secondary, lineWidth: isFocused <span class="operator">==</span> <span class="literal">true</span> <span class="operator">?</span> <span class="number">2</span> : <span class="number">0.3</span>)</span><br><span class="line">          )<span class="comment">//圆角遮罩</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         实现Enter提交，Enter+Option换行</span></span><br><span class="line"><span class="comment">         注意不能将下面的代码放到NavigationStack里面，否则会提交两次</span></span><br><span class="line"><span class="comment">         也就是说&quot;Enter提交&quot;会重复两次,这是不符合预期的</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">          .onAppear &#123;</span><br><span class="line">            <span class="type">NSEvent</span>.addLocalMonitorForEvents(matching: [.keyDown]) &#123; nsevent <span class="keyword">in</span></span><br><span class="line">                <span class="keyword">if</span> nsevent.keyCode <span class="operator">==</span> <span class="number">36</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>nsevent.modifierFlags.contains(.option) &#123;</span><br><span class="line">                    <span class="keyword">if</span> text.last <span class="operator">!=</span> <span class="literal">nil</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span> <span class="operator">!</span>text.isEmpty, <span class="operator">!</span>text.allSatisfy(&#123; <span class="variable">$0</span>.isNewline &#125;) &#123;</span><br><span class="line">                            <span class="built_in">print</span>(<span class="string">&quot;Enter提交&quot;</span>)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> nsevent</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>SwiftUI</category>
+      </categories>
+      <tags>
+        <tag>SwiftUI</tag>
       </tags>
   </entry>
   <entry>
