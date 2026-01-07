@@ -69,7 +69,7 @@
     <content><![CDATA[<h2 id="一、准备编译环境"><a href="#一、准备编译环境" class="headerlink" title="一、准备编译环境"></a>一、准备编译环境</h2><ol>
 <li><p>一个Linux发行版，这里以<a href="https://ubuntu.com/download/server">Ubuntu 24.04.3 LTS</a>为例</p>
 </li>
-<li><p>执行下面的命令，安装工具链，详情参考<a href="https://openwrt.org/docs/guide-developer/toolchain/install-buildsystem">OpenWrt官网</a></p>
+<li><p>安装工具链，详情参考<a href="https://openwrt.org/docs/guide-developer/toolchain/install-buildsystem">OpenWrt官网</a></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install build-essential clang flex bison g++ gawk \</span><br><span class="line">gcc-multilib g++-multilib gettext git libncurses5-dev libssl-dev \</span><br><span class="line">python3-setuptools rsync swig unzip zlib1g-dev file wget</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h2 id="二、下载源码并配置"><a href="#二、下载源码并配置" class="headerlink" title="二、下载源码并配置"></a>二、下载源码并配置</h2><blockquote>
@@ -91,24 +91,20 @@
 </li>
 <li><p>修改NTP服务器，推荐下面几个服务器，从上至下，依次是</p>
 <ul>
-<li><p>中国科学院国家授时中心</p>
-</li>
-<li><p>Apple NTP服务器</p>
-</li>
-<li><p>NTP授时快速域名服务</p>
-</li>
-<li><p>开源NTP服务器</p>
-</li>
+<li>中国科学院国家授时中心</li>
+<li>Apple NTP服务器</li>
+<li>NTP授时快速域名服务</li>
+<li>开源NTP服务器</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">add_list system.ntp.server=&#x27;ntp.ntsc.ac.cn&#x27;</span><br><span class="line">add_list system.ntp.server=&#x27;time.apple.com&#x27;</span><br><span class="line">add_list system.ntp.server=&#x27;cn.ntp.org.cn&#x27;</span><br><span class="line">add_list system.ntp.server=&#x27;cn.pool.ntp.org&#x27;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>修改IP、网关和DNS</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lan) ipad=$&#123;ipaddr:-&quot;192.168.1.1&quot;&#125; ;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">lan) ipad=$&#123;ipaddr:-&quot;192.168.1.1&quot;&#125; ;;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>在uci -q batch &lt;&lt;-EOF部分添加下面的内容</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">set network.$1.gateway=&#x27;192.168.1.1&#x27;</span><br><span class="line">set network.$1.dns=&#x27;127.0.0.1 223.5.5.5 8.8.8.8&#x27;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">set network.$1.gateway=&#x27;192.168.1.1&#x27;</span><br><span class="line">set network.$1.dns=&#x27;114.114.114.114 8.8.8.8&#x27;</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li><p>更新并安装插件</p>
@@ -118,9 +114,10 @@
 <p>首先替换<code>.config</code>为官方版本，<strong>该步骤非常关键</strong>，关乎以后能否热更新模块，这里以24.10.5版本，x86&#x2F;64架构为例</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/openwrt</span><br><span class="line">wget https://downloads.openwrt.org/releases/24.10.5/targets/x86/64/config.buildinfo</span><br><span class="line">rm -rf .config</span><br><span class="line">mv config.buildinfo .config</span><br></pre></td></tr></table></figure>
 
-<p>接着执行下面的命令，进入配置菜单</p>
+<p>接着进入配置菜单</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
 
+<blockquote>
 <p>该界面有如下操作</p>
 <ul>
 <li><code>↑ ↓</code> 键：上下切换</li>
@@ -135,63 +132,10 @@
 <li><code>Esc</code> 键：连击两下，返回上层菜单，如果在主菜单则为退出配置</li>
 <li><code>/</code>键：调出搜索功能</li>
 </ul>
-<p>按照下面的清单配置，加粗部分强烈建议配置</p>
-<blockquote>
-<ul>
-<li>Target System -&gt; x86</li>
-<li>Subtarget -&gt; x86_64</li>
-<li>Target Profile -&gt; Generic x86&#x2F;64</li>
-<li>Target Images<ul>
-<li>&lt;  &gt; tar.gz</li>
-<li>&lt;  &gt; ext4</li>
-<li>&lt;  &gt; Build GRUB images</li>
-<li><strong>(0) Seconds to wait before booting the default entry &#x2F;&#x2F; 尽可能快的重启OpenWrt</strong></li>
-<li><strong>(64) Kernel partition size (in MB)</strong></li>
-<li><strong>(2048) Root filesystem partition size (in MB)  &#x2F;&#x2F; 建议尽可能多的分配存储空间</strong></li>
-</ul>
-</li>
-<li>Base system<ul>
-<li>&lt;*&gt; block-mount</li>
-<li><strong>&lt;  &gt; dnsmasq &#x2F;&#x2F; 不选，使用下面</strong></li>
-<li><strong>&lt;*&gt; dnsmasq-full &#x2F;&#x2F; dnsmasq完整版本</strong></li>
-</ul>
-</li>
-<li>LuCI<ul>
-<li>Collections<ul>
-<li><strong>&lt;*&gt; luci</strong></li>
-<li>&lt;  &gt; luci-ssl &#x2F;&#x2F; 不选，使用下面</li>
-<li>&lt;*&gt; luci-ssl-openssl &#x2F;&#x2F; OpenSSL版</li>
-</ul>
-</li>
-<li>Modules<ul>
-<li>Translations<ul>
-<li>&lt;*&gt; Simplified Chinese (zh_Hans)</li>
-</ul>
-</li>
-<li>&lt;*&gt; luci-compat</li>
-</ul>
-</li>
-<li>Applications<ul>
-<li>这里不动，安装好OpenWrt系统后手动安装最新版本即可</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Network<ul>
-<li>File Transfer<ul>
-<li>&lt;*&gt; curl</li>
-<li>&lt;*&gt; wget-ssl</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Utilities<ul>
-<li>&lt;*&gt; open-vm-tools &#x2F;&#x2F; 非必选，按需选择</li>
-<li>&lt;*&gt; open-vm-tools-fuse &#x2F;&#x2F; 非必选，按需选择</li>
-</ul>
-</li>
-</ul>
 </blockquote>
+<p>建议按照下面的清单配置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">- Target System -&gt; x86</span><br><span class="line">- Subtarget -&gt; x86_64</span><br><span class="line">- Target Profile -&gt; Generic x86/64</span><br><span class="line">- Target Images</span><br><span class="line">  - (0) Seconds to wait before booting the default entry // 尽可能快的重启OpenWrt</span><br><span class="line">  - (2048) Root filesystem partition size (in MB)  // 尽可能多的分配存储空间</span><br><span class="line">- Base system</span><br><span class="line">  - &lt;*&gt; block-mount</span><br><span class="line">  - &lt; &gt; dnsmasq // 不选，使用下面</span><br><span class="line">  - &lt;*&gt; dnsmasq-full // dnsmasq完整版本</span><br><span class="line">- LuCI</span><br><span class="line">  - Collections</span><br><span class="line">    - &lt;*&gt; luci</span><br><span class="line">    - &lt;*&gt; luci-ssl</span><br><span class="line">  - Modules</span><br><span class="line">    - Translations</span><br><span class="line">      - &lt;*&gt; Simplified Chinese (zh_Hans)</span><br><span class="line">    - &lt;*&gt; luci-compat</span><br><span class="line">  - Applications</span><br><span class="line">    - 这里不动，安装好OpenWrt系统后手动安装最新版本即可</span><br><span class="line">- Network</span><br><span class="line">  - File Transfer</span><br><span class="line">    - &lt;*&gt; curl</span><br><span class="line">    - &lt;*&gt; wget-ssl</span><br></pre></td></tr></table></figure>
+
 <p>注意，如果配置错误，可以执行下面的命令重新配置</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rm -rf ./tmp &amp;&amp; rm -rf .config</span><br></pre></td></tr></table></figure></li>
 </ol>
@@ -218,6 +162,31 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rm -rf ~/openwrt</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h2 id="四、获取结果（以x86-x2F-64为例）"><a href="#四、获取结果（以x86-x2F-64为例）" class="headerlink" title="四、获取结果（以x86&#x2F;64为例）"></a>四、获取结果（以x86&#x2F;64为例）</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/openwrt/bin/targets/x86/64/</span><br><span class="line">ls -all</span><br></pre></td></tr></table></figure>
+
+<h2 id="五、安装系统"><a href="#五、安装系统" class="headerlink" title="五、安装系统"></a>五、安装系统</h2><blockquote>
+<p>以下操作在路由器的OpenWrt系统中进行</p>
+</blockquote>
+<ol>
+<li><p>先确定系统盘</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">df -h</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>dd写盘重装</p>
+<blockquote>
+<p>假设镜像在&#x2F;mnt&#x2F;sdb1&#x2F;NAS&#x2F;目录中，系统盘是&#x2F;dev&#x2F;sda</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">gzip -dc /mnt/sdb1/NAS/openwrt-24.10.5-x86-64-generic-squashfs-combined-efi.img.gz | dd of=/dev/sda bs=4M</span><br></pre></td></tr></table></figure>
+
+<p>等待几分钟后，显示</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">0+94391 records in</span><br><span class="line">0+94391 records out</span><br></pre></td></tr></table></figure>
+
+<p>即为写盘成功</p>
+</li>
+<li><p>重启进入新的OpenWrt系统</p>
+<blockquote>
+<p>这里执行重启命令可能不起作用，此时可以直接拔掉电源手动重启</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure></li>
+</ol>
 ]]></content>
       <categories>
         <category>Linux</category>
