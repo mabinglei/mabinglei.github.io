@@ -20,27 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"blog.binlay.me","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqusjs","storage":true,"lazyload":true,"nav":{"disqusjs":{"text":"Disqus","order":-1}},"activeClass":"disqusjs"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="Blog基本配置">
+    <meta name="description" content="OpenWrt官方固件扩容、修改启动等待时间和Samba共享">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://blog.binlay.me/hello-world">
+<meta property="og:title" content="OpenWrt官方固件设置">
+<meta property="og:url" content="https://blog.binlay.me/OpenWrt-official-firmware-setup">
 <meta property="og:site_name" content="Binglei&#39;s blog">
-<meta property="og:description" content="Blog基本配置">
+<meta property="og:description" content="OpenWrt官方固件扩容、修改启动等待时间和Samba共享">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-12-21T09:41:58.945Z">
-<meta property="article:modified_time" content="2022-12-22T08:18:01.861Z">
+<meta property="article:published_time" content="2026-01-25T08:26:38.000Z">
+<meta property="article:modified_time" content="2026-01-25T09:09:34.786Z">
 <meta property="article:author" content="Binglei">
-<meta property="article:tag" content="博客">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="OpenWrt">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://blog.binlay.me/hello-world.html">
+<link rel="canonical" href="https://blog.binlay.me/OpenWrt-official-firmware-setup.html">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.binlay.me/hello-world","path":"hello-world.html","title":"Hello World"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.binlay.me/OpenWrt-official-firmware-setup","path":"OpenWrt-official-firmware-setup.html","title":"OpenWrt官方固件设置"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hello World | Binglei's blog</title>
+<title>OpenWrt官方固件设置 | Binglei's blog</title>
   
 
 
@@ -158,7 +159,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%89%A9%E5%AE%B9"><span class="nav-number">1.</span> <span class="nav-text">一、扩容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BF%AE%E6%94%B9%E5%90%AF%E5%8A%A8%E7%AD%89%E5%BE%85%E6%97%B6%E9%97%B4"><span class="nav-number">2.</span> <span class="nav-text">二、修改启动等待时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%AE%BE%E7%BD%AEsamba%E5%B1%80%E5%9F%9F%E7%BD%91%E5%85%B1%E4%BA%AB"><span class="nav-number">3.</span> <span class="nav-text">三、设置samba局域网共享</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -229,7 +230,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.binlay.me/hello-world">
+    <link itemprop="mainEntityOfPage" href="https://blog.binlay.me/OpenWrt-official-firmware-setup">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://avatars.githubusercontent.com/u/42637658?s=400&u=72273e943f84c377cc985ab1756bfd567e4cef86&v=4">
@@ -242,12 +243,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Hello World | Binglei's blog">
-      <meta itemprop="description" content="Blog基本配置">
+      <meta itemprop="name" content="OpenWrt官方固件设置 | Binglei's blog">
+      <meta itemprop="description" content="OpenWrt官方固件扩容、修改启动等待时间和Samba共享">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello World
+          OpenWrt官方固件设置
         </h1>
 
         <div class="post-meta-container">
@@ -257,15 +258,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-12-21 17:41:58" itemprop="dateCreated datePublished" datetime="2022-12-21T17:41:58+08:00">2022-12-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-12-22 16:18:01" itemprop="dateModified" datetime="2022-12-22T16:18:01+08:00">2022-12-22</time>
+      <time title="创建时间：2026-01-25 16:26:38 / 修改时间：17:09:34" itemprop="dateCreated datePublished" datetime="2026-01-25T16:26:38+08:00">2026-01-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -273,7 +268,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" itemprop="url" rel="index"><span itemprop="name">博客搭建</span></a>
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
         </span>
     </span>
 
@@ -284,7 +279,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>367</span>
+      <span>1.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -295,26 +290,62 @@
     </span>
 </div>
 
-            <div class="post-description">Blog基本配置</div>
+            <div class="post-description">OpenWrt官方固件扩容、修改启动等待时间和Samba共享</div>
         </div>
       </header>
 
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+    <div class="post-body" itemprop="articleBody"><h2 id="一、扩容"><a href="#一、扩容" class="headerlink" title="一、扩容"></a>一、扩容</h2><p>官方固件默认空间分配较少，不足以安装常用插件，官方提供了<a target="_blank" rel="noopener" href="https://openwrt.org/docs/guide-user/advanced/expand_root">一键扩容脚本</a></p>
+<ol>
+<li><p>安装必备软件包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opkg update</span><br><span class="line">opkg install parted losetup resize2fs blkid</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载脚本并赋予执行权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -U &quot;&quot; -O expand-root.sh &quot;https://openwrt.org/_export/code/docs/guide-user/advanced/expand_root?codeblock=0&quot;</span><br><span class="line">chmod +x expand-root.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行脚本并重启系统</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./expand-root.sh</span><br><span class="line">reboot #系统会重启两次</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="二、修改启动等待时间"><a href="#二、修改启动等待时间" class="headerlink" title="二、修改启动等待时间"></a>二、修改启动等待时间</h2><p>官方固件默认启动等待时间是5秒，这里把它修改成0秒</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /boot/grub/grub.cfg</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">把<span class="built_in">set</span> <span class="built_in">timeout</span>=<span class="string">&quot;5&quot;</span>改成<span class="built_in">set</span> <span class="built_in">timeout</span>=<span class="string">&quot;0&quot;</span>，然后保存</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h2 id="三、设置samba局域网共享"><a href="#三、设置samba局域网共享" class="headerlink" title="三、设置samba局域网共享"></a>三、设置samba局域网共享</h2><ol>
+<li><p>安装必需组件</p>
+<blockquote>
+<p>samba相关组件应该在Luci界面安装，这里只安装shadow-useradd</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opkg update</span><br><span class="line">opkg install shadow-useradd</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>挂载磁盘</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount | grep sdb</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建系统用户（无 shell）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -M -s /bin/false nas</span><br><span class="line">grep nas /etc/passwd #验证</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建 Samba 用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">smbpasswd -a nas</span><br><span class="line">pdbedit -L #验证</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置目录权限 </p>
+<p>ext4（最稳）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown -R nas:nas /mnt/sdb1</span><br><span class="line">chmod -R 0755 /mnt/sdb1</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>FAT &#x2F; NTFS &#x2F; exFAT（权限由挂载决定）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 0777 /mnt/sdb1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Samba 配置文件 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/config/samba4</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>按照下面的配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">config samba</span><br><span class="line">        option workgroup &#x27;WORKGROUP&#x27;</span><br><span class="line">        option charset &#x27;UTF-8&#x27;</span><br><span class="line">        option description &#x27;Samba on OpenWRT&#x27;</span><br><span class="line">        option macos &#x27;1&#x27;</span><br><span class="line"></span><br><span class="line">config sambashare</span><br><span class="line">        option name &#x27;NAS&#x27;</span><br><span class="line">        option path &#x27;/mnt/sdb1&#x27;</span><br><span class="line">        option read_only &#x27;no&#x27;</span><br><span class="line">        option users &#x27;nas&#x27;</span><br><span class="line">        option guest_ok &#x27;yes&#x27;</span><br><span class="line">        option create_mask &#x27;0666&#x27;</span><br><span class="line">        option dir_mask &#x27;0777&#x27;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/samba4 enable</span><br><span class="line">/etc/init.d/samba4 restart</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>客户端访问<code>smb://192.168.1.1</code> ，用户名：<code>nas</code> ，密码根据自己设置的填写</p>
+</li>
+</ol>
 
     </div>
 
@@ -332,7 +363,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://blog.binlay.me/hello-world" title="Hello World">https://blog.binlay.me/hello-world</a>
+      <a href="https://blog.binlay.me/OpenWrt-official-firmware-setup" title="OpenWrt官方固件设置">https://blog.binlay.me/OpenWrt-official-firmware-setup</a>
   </li>
   <li class="post-copyright-license">
       <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -341,18 +372,19 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag"># 博客</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/OpenWrt/" rel="tag"># OpenWrt</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/OpenWrt-Compilation" rel="prev" title="OpenWrt 编译">
+                  <i class="fa fa-angle-left"></i> OpenWrt 编译
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/Qt-clock-embedded" rel="next" title="基于嵌入式Qt的多功能电子台历">
-                  基于嵌入式Qt的多功能电子台历 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
